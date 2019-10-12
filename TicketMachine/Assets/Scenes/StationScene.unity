@@ -353,7 +353,6 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: '1000
 
-
 '
 --- !u!222 &29153908
 CanvasRenderer:
@@ -1259,7 +1258,7 @@ GameObject:
   - component: {fileID: 717754380}
   - component: {fileID: 717754379}
   m_Layer: 5
-  m_Name: 500yenText
+  m_Name: Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1502,7 +1501,7 @@ GameObject:
   - component: {fileID: 778268563}
   - component: {fileID: 778268562}
   m_Layer: 5
-  m_Name: 10000yenText
+  m_Name: Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1946,7 +1945,7 @@ GameObject:
   - component: {fileID: 988596925}
   - component: {fileID: 988596924}
   m_Layer: 5
-  m_Name: 50yenText
+  m_Name: Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2023,7 +2022,7 @@ GameObject:
   - component: {fileID: 1034957500}
   - component: {fileID: 1034957499}
   m_Layer: 5
-  m_Name: 5000yenText
+  m_Name: Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2249,7 +2248,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 120}
-  m_SizeDelta: {x: 300, y: 150}
+  m_SizeDelta: {x: 300, y: 110}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1203739591
 MonoBehaviour:
@@ -2282,7 +2281,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u304A\u91D1\u3092\u5165\u308C\u3066\u304F\u3060\u3055\u3044\n\n\u73FE\u91D1\uFF1A130\u5186\n\n\u96FB\u5B50\u30DE\u30CD\u30FC\uFF1A124\u5186"
+  m_Text: "\u304A\u91D1\u3092\u5165\u308C\u3066\u304F\u3060\u3055\u3044\n\n\u73FE\u91D1\uFF1A130\u5186\n\u96FB\u5B50\u30DE\u30CD\u30FC\uFF1A124\u5186"
 --- !u!222 &1203739592
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2303,7 +2302,7 @@ GameObject:
   - component: {fileID: 1215019429}
   - component: {fileID: 1215019428}
   m_Layer: 5
-  m_Name: 100yenText
+  m_Name: Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2504,7 +2503,7 @@ GameObject:
   - component: {fileID: 1260863786}
   - component: {fileID: 1260863785}
   m_Layer: 5
-  m_Name: 10yenText
+  m_Name: Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3040,7 +3039,7 @@ GameObject:
   - component: {fileID: 1565704668}
   - component: {fileID: 1565704667}
   m_Layer: 5
-  m_Name: 1000yenText
+  m_Name: Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3231,6 +3230,7 @@ GameObject:
   - component: {fileID: 1725796853}
   - component: {fileID: 1725796855}
   - component: {fileID: 1725796856}
+  - component: {fileID: 1725796857}
   m_Layer: 0
   m_Name: TicketMachineDirector
   m_TagString: Untagged
@@ -3292,16 +3292,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf4b0b6203e40e24dbfd61957ef34897, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moneyList:
-  - {fileID: 59460444}
-  - {fileID: 491806199}
-  - {fileID: 892591866}
-  - {fileID: 719055728}
-  - {fileID: 595111477}
-  - {fileID: 2077114999}
-  - {fileID: 1234613981}
-  - {fileID: 378814097}
-  howToPay: 0
+--- !u!114 &1725796857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1725796852}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0024d29ce4cc96d438ba57f0816dd7a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1753004570
 GameObject:
   m_ObjectHideFlags: 0
@@ -3426,7 +3428,7 @@ GameObject:
   - component: {fileID: 1789280031}
   - component: {fileID: 1789280030}
   m_Layer: 5
-  m_Name: DisitalCashText
+  m_Name: Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
