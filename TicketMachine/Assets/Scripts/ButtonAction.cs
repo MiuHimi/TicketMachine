@@ -28,8 +28,8 @@ public class ButtonAction : MonoBehaviour
     public void OnClick()
     {
         // 券売機の状態を「ボタンが押された」にする
-        stateFlowCs.machineState = StateFlow.STATE.PUSH_BUY_BUTTON;
-        Debug.Log(stateFlowCs.machineState);
+        stateFlowCs.MachineState = StateFlow.STATE.PUSH_BUY_BUTTON;
+        Debug.Log(stateFlowCs.MachineState);
 
         // 非表示にする
         this.gameObject.SetActive(false);

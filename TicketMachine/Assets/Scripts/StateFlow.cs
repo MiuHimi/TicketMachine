@@ -14,7 +14,8 @@ public class StateFlow : MonoBehaviour
     }
 
     // 券売機の状態を保持
-    public STATE machineState;
+    [SerializeField]
+    private STATE machineState;
 
     // Start is called before the first frame update
     void Start()
@@ -28,4 +29,9 @@ public class StateFlow : MonoBehaviour
     {
         
     }
+
+    /// <summary>
+    /// 取得・設定関数
+    /// </summary>
+    public STATE MachineState { get { return machineState; } set { machineState = value; } }
 }

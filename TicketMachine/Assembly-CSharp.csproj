@@ -65,7 +65,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\ButtonAction.cs" />
-    <Compile Include="Assets\Scripts\ChengeVisible.cs" />
     <Compile Include="Assets\Scripts\ClickMoney.cs" />
     <Compile Include="Assets\Scripts\StateFlow.cs" />
     <Compile Include="Assets\Scripts\VisibleManager.cs" />

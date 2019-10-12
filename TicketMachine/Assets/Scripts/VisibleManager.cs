@@ -12,11 +12,11 @@ public class VisibleManager : MonoBehaviour
 
     //UI取得用
     [SerializeField]
-    Text guideText;
+    private Text guideText;
     [SerializeField]
-    Text deficitText;
+    private Text deficitText;
     [SerializeField]
-    Text deficitMoneyText;
+    private Text deficitMoneyText;
     //[SerializeField]
     //Text text;
 
@@ -32,7 +32,7 @@ public class VisibleManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (stateFlowCs.machineState >= StateFlow.STATE.PUSH_BUY_BUTTON)
+        if (stateFlowCs.MachineState >= StateFlow.STATE.PUSH_BUY_BUTTON)
         {
             guideText.enabled = true;
             deficitText.enabled = true;

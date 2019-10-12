@@ -3292,6 +3292,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf4b0b6203e40e24dbfd61957ef34897, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  moneyList:
+  - {fileID: 59460444}
+  - {fileID: 491806199}
+  - {fileID: 892591866}
+  - {fileID: 719055728}
+  - {fileID: 595111477}
+  - {fileID: 2077114999}
+  - {fileID: 1234613981}
+  - {fileID: 378814097}
+  howToPay: 0
 --- !u!1 &1753004570
 GameObject:
   m_ObjectHideFlags: 0
