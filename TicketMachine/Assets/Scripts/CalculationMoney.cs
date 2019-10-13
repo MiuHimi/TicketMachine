@@ -82,6 +82,11 @@ public class CalculationMoney : MonoBehaviour
     public int DificitMoney { get { return dificitMoney; } set { dificitMoney = value; } }
 
     /// <summary>
+    /// お釣り取得・設定関数
+    /// </summary>
+    public int ReturnMoney { get { return returnMoney; } set { returnMoney = value; } }
+
+    /// <summary>
     /// 切符購入状態取得・設定関数
     /// </summary>
     public bool IsFinishBuy { get { return isFinishBuy; } set { isFinishBuy = value; } }

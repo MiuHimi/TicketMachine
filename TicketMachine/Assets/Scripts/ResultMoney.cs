@@ -12,10 +12,18 @@ public class ResultMoney : MonoBehaviour
     // お釣りを表示するための親オブジェクト
     public GameObject returnMoneyParentObj;
 
+    // お金一覧
+    public int[] moneyList = { 0 };
+
     // ManagementCountのスクリプト情報を格納
     private ManagementCount managementCountCs;
     // ManagementCountがアタッチされているオブジェクト
     private GameObject attachManagementCountCsObj;
+
+    // CalculationMoneyのスクリプト情報を格納
+    private CalculationMoney calculationMoneyCs;
+    // CalculationMoneyがアタッチされているオブジェクト
+    private GameObject attachCalculationMoneyCsObj;
 
     // Start is called before the first frame update
     void Start()
@@ -24,6 +32,11 @@ public class ResultMoney : MonoBehaviour
         attachManagementCountCsObj = GameObject.Find("CountArea");
         // ManagementCountのスクリプト情報を取得
         managementCountCs = attachManagementCountCsObj.GetComponent<ManagementCount>();
+
+        // 対象オブジェクトを格納
+        attachCalculationMoneyCsObj = GameObject.Find("TicketMachineDirector");
+        // CalculationMoneyのスクリプト情報を取得
+        calculationMoneyCs = attachCalculationMoneyCsObj.GetComponent<CalculationMoney>();
     }
 
     // Update is called once per frame
@@ -37,6 +50,8 @@ public class ResultMoney : MonoBehaviour
     {
         // 投入したお金の表示
         ShowThrowMoneyText(throwMoneyParentObj);
+        // お釣りの表示
+        ShowReturnMoneyText(returnMoneyParentObj);
     }
 
     /// <summary>
@@ -50,45 +65,8 @@ public class ResultMoney : MonoBehaviour
             // 投入していないものはスキップ
             if (managementCountCs.ThrowMoneyCount[i] == 0) continue;
 
-            string str;
-            // 金種に応じて表示テキスト変更
-            switch (i)
-            {
-                case (int)ClickMoney.SELECTED_MONEY.TEN:
-                    str = managementCountCs.ThrowMoneyCount[(int)ClickMoney.SELECTED_MONEY.TEN].ToString();
-                    CreateMoneyTypeText("10円×" + str, parent, 18, TextAnchor.MiddleCenter);
-                    break;
-                case (int)ClickMoney.SELECTED_MONEY.FIFTY:
-                    str = managementCountCs.ThrowMoneyCount[(int)ClickMoney.SELECTED_MONEY.FIFTY].ToString();
-                    CreateMoneyTypeText("50円×" + str, parent, 18, TextAnchor.MiddleCenter);
-                    break;
-                case (int)ClickMoney.SELECTED_MONEY.ONE_HUNDRED:
-                    str = managementCountCs.ThrowMoneyCount[(int)ClickMoney.SELECTED_MONEY.ONE_HUNDRED].ToString();
-                    CreateMoneyTypeText("100円×" + str, parent, 18, TextAnchor.MiddleCenter);
-                    break;
-                case (int)ClickMoney.SELECTED_MONEY.FIVE_HUNDRED:
-                    str = managementCountCs.ThrowMoneyCount[(int)ClickMoney.SELECTED_MONEY.FIVE_HUNDRED].ToString();
-                    CreateMoneyTypeText("500円×" + str, parent, 18, TextAnchor.MiddleCenter);
-                    break;
-                case (int)ClickMoney.SELECTED_MONEY.ONE_THOUSAND:
-                    str = managementCountCs.ThrowMoneyCount[(int)ClickMoney.SELECTED_MONEY.ONE_THOUSAND].ToString();
-                    CreateMoneyTypeText("1000円×" + str, parent, 18, TextAnchor.MiddleCenter);
-                    break;
-                case (int)ClickMoney.SELECTED_MONEY.FIVE_THOUSAND:
-                    str = managementCountCs.ThrowMoneyCount[(int)ClickMoney.SELECTED_MONEY.FIVE_THOUSAND].ToString();
-                    CreateMoneyTypeText("5000円×" + str, parent, 18, TextAnchor.MiddleCenter);
-                    break;
-                case (int)ClickMoney.SELECTED_MONEY.TEN_THOUSAND:
-                    str = managementCountCs.ThrowMoneyCount[(int)ClickMoney.SELECTED_MONEY.TEN_THOUSAND].ToString();
-                    CreateMoneyTypeText("10000円×" + str, parent, 18, TextAnchor.MiddleCenter);
-                    break;
-                case (int)ClickMoney.SELECTED_MONEY.CREDIT:
-                    str = managementCountCs.ThrowMoneyCount[(int)ClickMoney.SELECTED_MONEY.CREDIT].ToString();
-                    CreateMoneyTypeText("電子マネー×" + str, parent, 18, TextAnchor.MiddleCenter);
-                    break;
-                default:
-                    break;
-            }
+            // 金種別の表示
+            ShowMoneyClassification(i, managementCountCs.ThrowMoneyCount, parent, 18);
         }
     }
 
@@ -98,7 +76,89 @@ public class ResultMoney : MonoBehaviour
     /// <param name="parent">表示するための親オブジェクト</param>
     private void ShowReturnMoneyText(GameObject parent)
     {
+        // お釣りの値を取得
+        int returnMoney = calculationMoneyCs.ReturnMoney;
+        // 金種別のお釣りの枚数
+        int[] returnMoneyCount = new int[] { 0, 0, 0, 0, 0, 0, 0, 0 };
 
+        // お釣りの計算
+        for(int i = returnMoneyCount.Length -1; i >= 0; i--)
+        {
+            // 割って余りがある場合
+            if (returnMoney / moneyList[i] != 0)
+            {
+                // クレジットはスキップ
+                if (i == (int)ClickMoney.SELECTED_MONEY.CREDIT) continue;
+                // 枚数をカウント
+                returnMoneyCount[i] = returnMoney / moneyList[i];
+                // お釣りからカウントした分だけの金額を引く
+                returnMoney -= moneyList[i] * returnMoneyCount[i];
+            }
+            // 余らない場合その金種はお釣りで使わない
+            else
+            {
+                returnMoneyCount[i] = 0;
+            }
+        }
+
+        for (int i = 0; i < returnMoneyCount.Length; i++)
+        {
+            // 返ってこないものはスキップ
+            if (returnMoneyCount[i] == 0) continue;
+
+            // 金種別の表示
+            ShowMoneyClassification(i, returnMoneyCount, parent, 18);
+        }
+    }
+
+    /// <summary>
+    /// 金種別の表示
+    /// </summary>
+    /// <param name="moneyType">金種</param>
+    /// <param name="countObject">枚数をカウントするオブジェクト</param>
+    /// <param name="parent">表示するための親オブジェクト</param>
+    /// <param name="fontSize">フォントサイズ</param>
+    private void ShowMoneyClassification(int moneyType, int[] countObject, GameObject parent, int fontSize)
+    {
+        string str;
+        // 金種に応じて表示テキスト変更
+        switch (moneyType)
+        {
+            case (int)ClickMoney.SELECTED_MONEY.TEN:
+                str = countObject[(int)ClickMoney.SELECTED_MONEY.TEN].ToString();
+                CreateMoneyTypeText("10円×" + str, parent, fontSize, TextAnchor.MiddleCenter);
+                break;
+            case (int)ClickMoney.SELECTED_MONEY.FIFTY:
+                str = countObject[(int)ClickMoney.SELECTED_MONEY.FIFTY].ToString();
+                CreateMoneyTypeText("50円×" + str, parent, fontSize, TextAnchor.MiddleCenter);
+                break;
+            case (int)ClickMoney.SELECTED_MONEY.ONE_HUNDRED:
+                str = countObject[(int)ClickMoney.SELECTED_MONEY.ONE_HUNDRED].ToString();
+                CreateMoneyTypeText("100円×" + str, parent, fontSize, TextAnchor.MiddleCenter);
+                break;
+            case (int)ClickMoney.SELECTED_MONEY.FIVE_HUNDRED:
+                str = countObject[(int)ClickMoney.SELECTED_MONEY.FIVE_HUNDRED].ToString();
+                CreateMoneyTypeText("500円×" + str, parent, fontSize, TextAnchor.MiddleCenter);
+                break;
+            case (int)ClickMoney.SELECTED_MONEY.ONE_THOUSAND:
+                str = countObject[(int)ClickMoney.SELECTED_MONEY.ONE_THOUSAND].ToString();
+                CreateMoneyTypeText("1000円×" + str, parent, fontSize, TextAnchor.MiddleCenter);
+                break;
+            case (int)ClickMoney.SELECTED_MONEY.FIVE_THOUSAND:
+                str = countObject[(int)ClickMoney.SELECTED_MONEY.FIVE_THOUSAND].ToString();
+                CreateMoneyTypeText("5000円×" + str, parent, fontSize, TextAnchor.MiddleCenter);
+                break;
+            case (int)ClickMoney.SELECTED_MONEY.TEN_THOUSAND:
+                str = countObject[(int)ClickMoney.SELECTED_MONEY.TEN_THOUSAND].ToString();
+                CreateMoneyTypeText("10000円×" + str, parent, fontSize, TextAnchor.MiddleCenter);
+                break;
+            case (int)ClickMoney.SELECTED_MONEY.CREDIT:
+                str = countObject[(int)ClickMoney.SELECTED_MONEY.CREDIT].ToString();
+                CreateMoneyTypeText("電子マネー×" + str, parent, fontSize, TextAnchor.MiddleCenter);
+                break;
+            default:
+                break;
+        }
     }
 
     /// <summary>

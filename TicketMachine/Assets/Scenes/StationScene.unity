@@ -1080,6 +1080,8 @@ MonoBehaviour:
   textPrefab: {fileID: 7069410992405509707, guid: b65fe7b92ab4d6041a73842c9eadbbe6,
     type: 3}
   throwMoneyParentObj: {fileID: 1559562479}
+  returnMoneyParentObj: {fileID: 1633192205}
+  moneyList: 0a0000003200000064000000f4010000e80300008813000010270000e8030000
 --- !u!1 &258288438
 GameObject:
   m_ObjectHideFlags: 0
@@ -3254,6 +3256,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1448378266}
+  - component: {fileID: 1448378267}
   m_Layer: 5
   m_Name: RemainingMoneyList
   m_TagString: Untagged
@@ -3280,6 +3283,31 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 200, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1448378267
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1448378265}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59f8146938fff824cb5fd77236b75775, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Padding:
+    m_Left: 0
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
+  m_ChildAlignment: 1
+  m_Spacing: 0
+  m_ChildForceExpandWidth: 1
+  m_ChildForceExpandHeight: 1
+  m_ChildControlWidth: 0
+  m_ChildControlHeight: 0
+  m_ChildScaleWidth: 0
+  m_ChildScaleHeight: 0
 --- !u!1 &1449953183
 GameObject:
   m_ObjectHideFlags: 0
@@ -3814,8 +3842,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1633192206}
+  - component: {fileID: 1633192207}
   m_Layer: 5
-  m_Name: ThrowingMoneyList
+  m_Name: ReturnMoneyList
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3840,6 +3869,31 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 200, y: 170}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1633192207
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1633192205}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59f8146938fff824cb5fd77236b75775, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Padding:
+    m_Left: 0
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
+  m_ChildAlignment: 1
+  m_Spacing: 0
+  m_ChildForceExpandWidth: 1
+  m_ChildForceExpandHeight: 1
+  m_ChildControlWidth: 0
+  m_ChildControlHeight: 0
+  m_ChildScaleWidth: 0
+  m_ChildScaleHeight: 0
 --- !u!1 &1635610873
 GameObject:
   m_ObjectHideFlags: 0
