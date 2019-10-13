@@ -17,6 +17,14 @@ public class ResultMoney : MonoBehaviour
     // お金一覧
     public int[] moneyList = { 0 };
 
+    // お釣り
+    private int returnMoney;
+
+    // ClickMoneyのスクリプト情報を格納
+    private ClickMoney clickMoneyCs;
+    // ClickMoneyがアタッチされているオブジェクト
+    private GameObject attachClickMoneyCsObj;
+
     // ManagementCountのスクリプト情報を格納
     private ManagementCount managementCountCs;
     // ManagementCountがアタッチされているオブジェクト
@@ -30,6 +38,11 @@ public class ResultMoney : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // 対象オブジェクトを格納
+        attachClickMoneyCsObj = GameObject.Find("TicketMachineDirector");
+        // ClickMoneyのスクリプト情報を取得
+        clickMoneyCs = attachClickMoneyCsObj.GetComponent<ClickMoney>();
+
         // 対象オブジェクトを格納
         attachManagementCountCsObj = GameObject.Find("CountArea");
         // ManagementCountのスクリプト情報を取得
@@ -81,9 +94,12 @@ public class ResultMoney : MonoBehaviour
     private void ShowReturnMoneyText(GameObject parent)
     {
         // お釣りの値を取得
-        int returnMoney = calculationMoneyCs.ReturnMoney;
+        returnMoney = calculationMoneyCs.ReturnMoney;
         // 金種別のお釣りの枚数
-        int[] returnMoneyCount = new int[] { 0, 0, 0, 0, 0, 0, 0, 0 };
+        int[] returnMoneyCount = new int[] { 0, 0, 0, 0, 0, 0, 0};
+
+        // 電子マネーは現金のお釣りで返さない
+        if (clickMoneyCs.SelectedMoney == ClickMoney.SELECTED_MONEY.CREDIT) return;
 
         // お釣りの計算
         for(int i = returnMoneyCount.Length -1; i >= 0; i--)
@@ -123,8 +139,18 @@ public class ResultMoney : MonoBehaviour
     {
         for (int i = 0; i < managementCountCs.RemainMoneyCount.Length; i++)
         {
-            // 現在残っているお金を計算
-            managementCountCs.RemainMoneyCount[i] -= managementCountCs.ThrowMoneyCount[i];
+            // 電子マネー以外
+            if (i != (int)ClickMoney.SELECTED_MONEY.CREDIT)
+            {
+                // 現在残っているお金を計算
+                managementCountCs.RemainMoneyCount[i] -= managementCountCs.ThrowMoneyCount[i];
+            }
+            // 電子マネー
+            else if(i == (int)ClickMoney.SELECTED_MONEY.CREDIT)
+            {
+                // 現在残っているお金を計算
+                managementCountCs.RemainMoneyCount[i] = returnMoney;
+            }
 
             // 金種別の表示
             ShowMoneyClassification(i, managementCountCs.RemainMoneyCount, parent, 18);
@@ -174,7 +200,7 @@ public class ResultMoney : MonoBehaviour
                 break;
             case (int)ClickMoney.SELECTED_MONEY.CREDIT:
                 str = countObject[(int)ClickMoney.SELECTED_MONEY.CREDIT].ToString();
-                CreateMoneyTypeText("電子マネー×" + str, parent, fontSize, TextAnchor.MiddleCenter);
+                CreateMoneyTypeText("電子マネー  ￥" + str, parent, fontSize, TextAnchor.MiddleCenter);
                 break;
             default:
                 break;

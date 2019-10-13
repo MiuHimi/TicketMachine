@@ -64,7 +64,6 @@ public class ManagementCount : MonoBehaviour
         // 残りのお金を保持
         remainMoneyCount = new int[]
         {
-            
             StringToInt(ten.GetComponent<Text>().text.ToString()),
             StringToInt(fifty.GetComponent<Text>().text.ToString()),
             StringToInt(oneHundred.GetComponent<Text>().text.ToString()),
@@ -80,7 +79,7 @@ public class ManagementCount : MonoBehaviour
 
         // 対象オブジェクトを格納
         attachClickMoneyCsObj = GameObject.Find("TicketMachineDirector");
-        // StateFlowのスクリプト情報を取得
+        // ClickMoneyのスクリプト情報を取得
         clickMoneyCs = attachClickMoneyCsObj.GetComponent<ClickMoney>();
 
         // 対象オブジェクトを格納
@@ -130,8 +129,8 @@ public class ManagementCount : MonoBehaviour
                 calculationMoneyCs.ThrowMoney(10000);
                 break;
             case ClickMoney.SELECTED_MONEY.CREDIT:
-                throwMoneyCount[(int)ClickMoney.SELECTED_MONEY.CREDIT]++;
-                //DisCount((int)ClickMoney.SELECTED_MONEY.CREDIT);
+                throwMoneyCount[(int)ClickMoney.SELECTED_MONEY.CREDIT] = remainMoneyCount[(int)ClickMoney.SELECTED_MONEY.CREDIT];
+                DisCount((int)ClickMoney.SELECTED_MONEY.CREDIT);
                 calculationMoneyCs.ThrowMoney(1000);
                 break;
             default:
@@ -216,11 +215,11 @@ public class ManagementCount : MonoBehaviour
                 break;
             case (int)ClickMoney.SELECTED_MONEY.CREDIT:
                 // 型変換
-                //count = StringToInt(digitalCashAmount.text);
+                count = StringToInt(digitalCashAmount.text);
                 // ディスカウント
                 if (count > 0)
                 {
-                    count--;
+                    count -= calculationMoneyCs.DificitMoney;
                 }
                 digitalCashAmount.text = count.ToString();
                 break;
