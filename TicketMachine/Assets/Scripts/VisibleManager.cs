@@ -5,11 +5,6 @@ using UnityEngine.UI;
 
 public class VisibleManager : MonoBehaviour
 {
-    // StateFlowのスクリプト情報を格納
-    private StateFlow stateFlowCs;
-    // StateFlowがアタッチされているオブジェクト
-    private GameObject attachStateFlowCsObj;
-
     //UI取得用
     [SerializeField]
     private Text[] guideText;
@@ -22,13 +17,24 @@ public class VisibleManager : MonoBehaviour
     [SerializeField]
     private Text[] remainText;
 
+    // StateFlowのスクリプト情報を格納
+    private StateFlow stateFlowCs;
+
+    // EndButtonActionのスクリプト情報を格納
+    private EndButtonAction endButtonActionCs;
+
     // Start is called before the first frame update
     void Start()
     {
         // 対象オブジェクトを格納
-        attachStateFlowCsObj = GameObject.Find("TicketMachineDirector");
+        GameObject attachStateFlowCsObj = GameObject.Find("TicketMachineDirector");
         // StateFlowのスクリプト情報を取得
         stateFlowCs = attachStateFlowCsObj.GetComponent<StateFlow>();
+
+        // 対象オブジェクトを格納
+        GameObject attachEndButtonActionCsObj = GameObject.Find("EndButton");
+        // StateFlowのスクリプト情報を取得
+        endButtonActionCs = attachEndButtonActionCsObj.GetComponent<EndButtonAction>();
     }
 
     // Update is called once per frame
@@ -65,6 +71,9 @@ public class VisibleManager : MonoBehaviour
             {
                 remainText[i].enabled = true;
             }
+
+            // 終了ボタン表示
+            endButtonActionCs.SetActive(true);
         }
 
         if (stateFlowCs.MachineState != StateFlow.STATE.PUSH_BUY_BUTTON &&
