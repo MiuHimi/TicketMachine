@@ -22,8 +22,13 @@ public class ManagementCount : MonoBehaviour
 
     // ClickMoneyのスクリプト情報を格納
     private ClickMoney clickMoneyCs;
-    // StateFlowがアタッチされているオブジェクト
+    // ClickMoneyがアタッチされているオブジェクト
     private GameObject attachClickMoneyCsObj;
+
+    // CalculationMoneyのスクリプト情報を格納
+    private CalculationMoney calculationMoneyCs;
+    // CalculationMoneyがアタッチされているオブジェクト
+    private GameObject attachCalculationMoneyCsObj;
 
     // Start is called before the first frame update
     void Start()
@@ -50,6 +55,11 @@ public class ManagementCount : MonoBehaviour
         attachClickMoneyCsObj = GameObject.Find("TicketMachineDirector");
         // StateFlowのスクリプト情報を取得
         clickMoneyCs = attachClickMoneyCsObj.GetComponent<ClickMoney>();
+
+        // 対象オブジェクトを格納
+        attachCalculationMoneyCsObj = GameObject.Find("TicketMachineDirector");
+        // CalculationMoneyのスクリプト情報を取得
+        calculationMoneyCs = attachCalculationMoneyCsObj.GetComponent<CalculationMoney>();
     }
 
     // Update is called once per frame
@@ -59,24 +69,31 @@ public class ManagementCount : MonoBehaviour
         {
             case ClickMoney.SELECTED_MONEY.TEN:
                 DisCount(10);
+                calculationMoneyCs.ThrowMoney(10);
                 break;
             case ClickMoney.SELECTED_MONEY.FIFTY:
                 DisCount(50);
+                calculationMoneyCs.ThrowMoney(50);
                 break;
             case ClickMoney.SELECTED_MONEY.ONE_HUNDRED:
                 DisCount(100);
+                calculationMoneyCs.ThrowMoney(100);
                 break;
             case ClickMoney.SELECTED_MONEY.FIVE_HUNDRED:
                 DisCount(500);
+                calculationMoneyCs.ThrowMoney(500);
                 break;
             case ClickMoney.SELECTED_MONEY.ONE_THOUSAND:
                 DisCount(1000);
+                calculationMoneyCs.ThrowMoney(1000);
                 break;
             case ClickMoney.SELECTED_MONEY.FIVE_THOUSAND:
                 DisCount(5000);
+                calculationMoneyCs.ThrowMoney(5000);
                 break;
             case ClickMoney.SELECTED_MONEY.TEN_THOUSAND:
                 DisCount(10000);
+                calculationMoneyCs.ThrowMoney(10000);
                 break;
         }
     }

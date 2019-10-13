@@ -65,6 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\ButtonAction.cs" />
+    <Compile Include="Assets\Scripts\CalculationMoney.cs" />
     <Compile Include="Assets\Scripts\ClickMoney.cs" />
     <Compile Include="Assets\Scripts\ManagementCount.cs" />
     <Compile Include="Assets\Scripts\StateFlow.cs" />

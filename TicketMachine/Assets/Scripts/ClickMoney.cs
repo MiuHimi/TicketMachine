@@ -39,6 +39,16 @@ public class ClickMoney : MonoBehaviour
     // レイの飛ばせる距離
     private float rayDistance;
 
+    // StateFlowのスクリプト情報を格納
+    private StateFlow stateFlowCs;
+    // StateFlowがアタッチされているオブジェクト
+    private GameObject attachStateFlowCsObj;
+
+    // CalculationMoneyのスクリプト情報を格納
+    private CalculationMoney calculationMoneyCs;
+    // CalculationMoneyがアタッチされているオブジェクト
+    private GameObject attachCalculationMoneyCsObj;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -47,6 +57,16 @@ public class ClickMoney : MonoBehaviour
 
         // レイを飛ばせる距離
         rayDistance = 200.0f;
+
+        // 対象オブジェクトを格納
+        attachStateFlowCsObj = GameObject.Find("TicketMachineDirector");
+        // StateFlowのスクリプト情報を取得
+        stateFlowCs = attachStateFlowCsObj.GetComponent<StateFlow>();
+
+        // 対象オブジェクトを格納
+        attachCalculationMoneyCsObj = GameObject.Find("TicketMachineDirector");
+        // CalculationMoneyのスクリプト情報を取得
+        calculationMoneyCs = attachCalculationMoneyCsObj.GetComponent<CalculationMoney>();
     }
 
     // Update is called once per frame
@@ -66,73 +86,74 @@ public class ClickMoney : MonoBehaviour
                 // オブジェクトの名前を取得
                 string objectName = hit.collider.gameObject.name;
 
-                switch(objectName)
+                // 「購入」ボタンが押されていて、金銭が投入中だったら
+                if(stateFlowCs.MachineState >= StateFlow.STATE.PUSH_BUY_BUTTON &&
+                   stateFlowCs.MachineState <= StateFlow.STATE.THROW_CASH)
                 {
-                    case "10yen":
-                        if(howToPay == PAY.NONE)
-                        {
-                            howToPay = PAY.CASH;
-                        }
-                        // 10円を選択
-                        selectedMoney = SELECTED_MONEY.TEN;
-                        break;
-                    case "50yen":
+                    // 投入されたものが現金だったら
+                    if (objectName == "10yen" || objectName == "50yen" ||
+                        objectName == "100yen" || objectName == "500yen" ||
+                        objectName == "1000yen" || objectName == "5000yen" ||
+                        objectName == "10000yen")
+                    {
+                        // 支払い方法を現金に設定
                         if (howToPay == PAY.NONE)
                         {
                             howToPay = PAY.CASH;
+                            // 現金の場合の代金
+                            calculationMoneyCs.DificitMoney = 130;
                         }
-                        // 50円を選択
-                        selectedMoney = SELECTED_MONEY.FIFTY;
-                        break;
-                    case "100yen":
-                        if (howToPay == PAY.NONE)
-                        {
-                            howToPay = PAY.CASH;
-                        }
-                        // 100円を選択
-                        selectedMoney = SELECTED_MONEY.ONE_HUNDRED;
-                        break;
-                    case "500yen":
-                        if (howToPay == PAY.NONE)
-                        {
-                            howToPay = PAY.CASH;
-                        }
-                        // 500円を選択
-                        selectedMoney = SELECTED_MONEY.FIVE_HUNDRED;
-                        break;
-                    case "1000yen":
-                        if (howToPay == PAY.NONE)
-                        {
-                            howToPay = PAY.CASH;
-                        }
-                        // 1000円を選択
-                        selectedMoney = SELECTED_MONEY.ONE_THOUSAND;
-                        break;
-                    case "5000yen":
-                        if (howToPay == PAY.NONE)
-                        {
-                            howToPay = PAY.CASH;
-                        }
-                        // 5000円を選択
-                        selectedMoney = SELECTED_MONEY.FIVE_THOUSAND;
-                        break;
-                    case "10000yen":
-                        if (howToPay == PAY.NONE)
-                        {
-                            howToPay = PAY.CASH;
-                        }
-                        // 10000円を選択
-                        selectedMoney = SELECTED_MONEY.TEN_THOUSAND;
-                        break;
-                    case "DigitalCash":
+                    }
+                    else if(objectName == "DigitalCash")
+                    {
+                        // 支払い方法を電子マネーに設定
                         if (howToPay == PAY.NONE)
                         {
                             howToPay = PAY.DIGITAL_CASH;
+                            // 電子マネーの場合の代金
+                            calculationMoneyCs.DificitMoney = 124;
                         }
-                        // ICカードを選択
-                        selectedMoney = SELECTED_MONEY.CREDIT;
-                        break;
-                    default:            Debug.Log("お金払って");         break;
+                    }
+
+                    switch (objectName)
+                    {
+                        case "10yen":
+                            // 10円を選択
+                            selectedMoney = SELECTED_MONEY.TEN;
+                            break;
+                        case "50yen":
+                            // 50円を選択
+                            selectedMoney = SELECTED_MONEY.FIFTY;
+                            break;
+                        case "100yen":
+                            // 100円を選択
+                            selectedMoney = SELECTED_MONEY.ONE_HUNDRED;
+                            break;
+                        case "500yen":
+                            // 500円を選択
+                            selectedMoney = SELECTED_MONEY.FIVE_HUNDRED;
+                            break;
+                        case "1000yen":
+                            // 1000円を選択
+                            selectedMoney = SELECTED_MONEY.ONE_THOUSAND;
+                            break;
+                        case "5000yen":
+                            // 5000円を選択
+                            selectedMoney = SELECTED_MONEY.FIVE_THOUSAND;
+                            break;
+                        case "10000yen":
+                            // 10000円を選択
+                            selectedMoney = SELECTED_MONEY.TEN_THOUSAND;
+                            break;
+                        case "DigitalCash":
+                            // ICカードを選択
+                            selectedMoney = SELECTED_MONEY.CREDIT;
+                            break;
+                        default:            Debug.Log("お金払って");         break;
+                    }
+                    // 券売機の状態を「金銭投入中」にする
+                    stateFlowCs.MachineState = StateFlow.STATE.THROW_CASH;
+                    Debug.Log(stateFlowCs.MachineState);
                 }
             }
         }

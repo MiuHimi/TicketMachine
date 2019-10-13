@@ -12,11 +12,9 @@ public class VisibleManager : MonoBehaviour
 
     //UI取得用
     [SerializeField]
-    private Text guideText;
+    private Text[] guideText;
     [SerializeField]
-    private Text deficitText;
-    [SerializeField]
-    private Text deficitMoneyText;
+    private Text[] deficitText;
     //[SerializeField]
     //Text text;
 
@@ -32,17 +30,34 @@ public class VisibleManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // ボタンが押されてから以降
         if (stateFlowCs.MachineState >= StateFlow.STATE.PUSH_BUY_BUTTON)
         {
-            guideText.enabled = true;
-            deficitText.enabled = true;
-            deficitMoneyText.enabled = true;
+            for(int i = 0; i < guideText.Length; i++)
+            {
+                guideText[i].enabled = true;
+            }
         }
-        else
+        // 金銭が投入されてから以降
+        if (stateFlowCs.MachineState >= StateFlow.STATE.THROW_CASH)
         {
-            guideText.enabled = false;
-            deficitText.enabled = false;
-            deficitMoneyText.enabled = false;
+            for (int i = 0; i < deficitText.Length; i++)
+            {
+                deficitText[i].enabled = true;
+            }
+        }
+
+        if (stateFlowCs.MachineState != StateFlow.STATE.PUSH_BUY_BUTTON &&
+            stateFlowCs.MachineState != StateFlow.STATE.THROW_CASH)
+        {
+            for (int i = 0; i < guideText.Length; i++)
+            {
+                guideText[i].enabled = false;
+            }
+            for (int i = 0; i < deficitText.Length; i++)
+            {
+                deficitText[i].enabled = false;
+            }
         }
     }
 }
