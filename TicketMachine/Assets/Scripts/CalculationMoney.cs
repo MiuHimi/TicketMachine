@@ -61,7 +61,7 @@ public class CalculationMoney : MonoBehaviour
     public void ThrowMoney(int throwMoney)
     {
         dificitMoney -= throwMoney;
-        if (dificitMoney < 0)
+        if (dificitMoney <= 0)
         {
             // 正の値にして保存
             returnMoney = dificitMoney * -1;

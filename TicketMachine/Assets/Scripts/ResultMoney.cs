@@ -107,7 +107,7 @@ public class ResultMoney : MonoBehaviour
             // 割って余りがある場合
             if (returnMoney / moneyList[i] != 0)
             {
-                // クレジットはスキップ
+                // 電子マネーはスキップ
                 if (i == (int)ClickMoney.SELECTED_MONEY.CREDIT) continue;
                 // 枚数をカウント
                 returnMoneyCount[i] = returnMoney / moneyList[i];
@@ -148,8 +148,12 @@ public class ResultMoney : MonoBehaviour
             // 電子マネー
             else if(i == (int)ClickMoney.SELECTED_MONEY.CREDIT)
             {
-                // 現在残っているお金を計算
-                managementCountCs.RemainMoneyCount[i] = returnMoney;
+                // 電子マネーで支払った場合
+                if(clickMoneyCs.HowToPay == ClickMoney.PAY.DIGITAL_CASH)
+                {
+                    // 現在残っているお金を計算
+                    managementCountCs.RemainMoneyCount[i] = returnMoney;
+                }
             }
 
             // 金種別の表示
