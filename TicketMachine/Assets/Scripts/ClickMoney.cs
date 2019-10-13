@@ -119,35 +119,35 @@ public class ClickMoney : MonoBehaviour
                     {
                         case "10yen":
                             // 10円を選択
-                            selectedMoney = SELECTED_MONEY.TEN;
+                            if (howToPay == PAY.CASH) selectedMoney = SELECTED_MONEY.TEN;
                             break;
                         case "50yen":
                             // 50円を選択
-                            selectedMoney = SELECTED_MONEY.FIFTY;
+                            if (howToPay == PAY.CASH) selectedMoney = SELECTED_MONEY.FIFTY;
                             break;
                         case "100yen":
                             // 100円を選択
-                            selectedMoney = SELECTED_MONEY.ONE_HUNDRED;
+                            if (howToPay == PAY.CASH) selectedMoney = SELECTED_MONEY.ONE_HUNDRED;
                             break;
                         case "500yen":
                             // 500円を選択
-                            selectedMoney = SELECTED_MONEY.FIVE_HUNDRED;
+                            if (howToPay == PAY.CASH) selectedMoney = SELECTED_MONEY.FIVE_HUNDRED;
                             break;
                         case "1000yen":
                             // 1000円を選択
-                            selectedMoney = SELECTED_MONEY.ONE_THOUSAND;
+                            if (howToPay == PAY.CASH) selectedMoney = SELECTED_MONEY.ONE_THOUSAND;
                             break;
                         case "5000yen":
                             // 5000円を選択
-                            selectedMoney = SELECTED_MONEY.FIVE_THOUSAND;
+                            if (howToPay == PAY.CASH) selectedMoney = SELECTED_MONEY.FIVE_THOUSAND;
                             break;
                         case "10000yen":
                             // 10000円を選択
-                            selectedMoney = SELECTED_MONEY.TEN_THOUSAND;
+                            if (howToPay == PAY.CASH) selectedMoney = SELECTED_MONEY.TEN_THOUSAND;
                             break;
                         case "DigitalCash":
                             // ICカードを選択
-                            selectedMoney = SELECTED_MONEY.CREDIT;
+                            if (howToPay == PAY.DIGITAL_CASH) selectedMoney = SELECTED_MONEY.CREDIT;
                             break;
                         default:            Debug.Log("お金払って");         break;
                     }
