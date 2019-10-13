@@ -23,6 +23,11 @@ public class CalculationMoney : MonoBehaviour
     // ClickMoneyがアタッチされているオブジェクト
     private GameObject attachClickMoneyCsObj;
 
+    // ResultMoneyのスクリプト情報を格納
+    private ResultMoney resultMoneyCs;
+    // ResultMoneyがアタッチされているオブジェクト
+    private GameObject attachResultMoneyCsObj;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -36,8 +41,13 @@ public class CalculationMoney : MonoBehaviour
 
         // 対象オブジェクトを格納
         attachClickMoneyCsObj = GameObject.Find("TicketMachineDirector");
-        // StateFlowのスクリプト情報を取得
+        // ClickMoneyのスクリプト情報を取得
         clickMoneyCs = attachClickMoneyCsObj.GetComponent<ClickMoney>();
+
+        // 対象オブジェクトを格納
+        attachResultMoneyCsObj = GameObject.Find("TickectMachineArea");
+        // StateFlowのスクリプト情報を取得
+        resultMoneyCs = attachResultMoneyCsObj.GetComponent<ResultMoney>();
     }
 
     // Update is called once per frame
@@ -55,7 +65,14 @@ public class CalculationMoney : MonoBehaviour
         {
             // 正の値にして保存
             returnMoney = dificitMoney * -1;
+            Debug.Log(returnMoney);
+            // 不足分は0円
             dificitMoney = 0;
+            // 購入完了
+            isFinishBuy = true;
+
+            // 結果画面を表示
+            resultMoneyCs.ShowResultMoney();
         }
     }
 
@@ -63,4 +80,9 @@ public class CalculationMoney : MonoBehaviour
     /// 支払い残金取得・設定関数
     /// </summary>
     public int DificitMoney { get { return dificitMoney; } set { dificitMoney = value; } }
+
+    /// <summary>
+    /// 切符購入状態取得・設定関数
+    /// </summary>
+    public bool IsFinishBuy { get { return isFinishBuy; } set { isFinishBuy = value; } }
 }

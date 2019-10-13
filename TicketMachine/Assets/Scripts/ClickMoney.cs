@@ -16,8 +16,6 @@ public class ClickMoney : MonoBehaviour
     // 選択したお金
     public enum SELECTED_MONEY
     {
-        NOT_SELECT,
-
         TEN,
         FIFTY,
         ONE_HUNDRED,
@@ -25,7 +23,9 @@ public class ClickMoney : MonoBehaviour
         ONE_THOUSAND,
         FIVE_THOUSAND,
         TEN_THOUSAND,
-        CREDIT
+        CREDIT,
+
+        NOT_SELECT,
     }
 
     // 支払い方法
@@ -54,6 +54,9 @@ public class ClickMoney : MonoBehaviour
     {
         // 支払い方法(方法未定)
         howToPay = PAY.NONE;
+
+        // 非選択
+        selectedMoney = SELECTED_MONEY.NOT_SELECT;
 
         // レイを飛ばせる距離
         rayDistance = 200.0f;
@@ -90,6 +93,14 @@ public class ClickMoney : MonoBehaviour
                 if(stateFlowCs.MachineState >= StateFlow.STATE.PUSH_BUY_BUTTON &&
                    stateFlowCs.MachineState <= StateFlow.STATE.THROW_CASH)
                 {
+                    // 切符を購入できるまで投入が可能
+                    if (calculationMoneyCs.IsFinishBuy)
+                    {
+                        stateFlowCs.MachineState = StateFlow.STATE.GET_TICKET;
+                        Debug.Log(stateFlowCs.MachineState);
+                        return;
+                    }
+
                     // 投入されたものが現金だったら
                     if (objectName == "10yen" || objectName == "50yen" ||
                         objectName == "100yen" || objectName == "500yen" ||
@@ -104,6 +115,7 @@ public class ClickMoney : MonoBehaviour
                             calculationMoneyCs.DificitMoney = 130;
                         }
                     }
+                    // 電子マネーだったら
                     else if(objectName == "DigitalCash")
                     {
                         // 支払い方法を電子マネーに設定

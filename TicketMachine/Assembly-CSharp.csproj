@@ -68,6 +68,7 @@
     <Compile Include="Assets\Scripts\CalculationMoney.cs" />
     <Compile Include="Assets\Scripts\ClickMoney.cs" />
     <Compile Include="Assets\Scripts\ManagementCount.cs" />
+    <Compile Include="Assets\Scripts\ResultMoney.cs" />
     <Compile Include="Assets\Scripts\StateFlow.cs" />
     <Compile Include="Assets\Scripts\VisibleManager.cs" />
     <Reference Include="Unity.Timeline.Editor">
