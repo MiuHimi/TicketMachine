@@ -78,6 +78,14 @@ public class ClickMoney : MonoBehaviour
         // クリックされていないときは非選択に
         selectedMoney = SELECTED_MONEY.NOT_SELECT;
 
+        // 切符を購入できるまで投入が可能
+        if (calculationMoneyCs.IsFinishBuy)
+        {
+            stateFlowCs.MachineState = StateFlow.STATE.GET_TICKET;
+            Debug.Log(stateFlowCs.MachineState);
+            return;
+        }
+
         // クリックしたとき
         if (Input.GetMouseButtonDown(0))
         {
@@ -93,14 +101,6 @@ public class ClickMoney : MonoBehaviour
                 if(stateFlowCs.MachineState >= StateFlow.STATE.PUSH_BUY_BUTTON &&
                    stateFlowCs.MachineState <= StateFlow.STATE.THROW_CASH)
                 {
-                    // 切符を購入できるまで投入が可能
-                    if (calculationMoneyCs.IsFinishBuy)
-                    {
-                        stateFlowCs.MachineState = StateFlow.STATE.GET_TICKET;
-                        Debug.Log(stateFlowCs.MachineState);
-                        return;
-                    }
-
                     // 投入されたものが現金だったら
                     if (objectName == "10yen" || objectName == "50yen" ||
                         objectName == "100yen" || objectName == "500yen" ||
