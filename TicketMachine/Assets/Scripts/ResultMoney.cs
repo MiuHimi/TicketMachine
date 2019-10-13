@@ -11,6 +11,8 @@ public class ResultMoney : MonoBehaviour
     public GameObject throwMoneyParentObj;
     // お釣りを表示するための親オブジェクト
     public GameObject returnMoneyParentObj;
+    // 残りのお金を表示するための親オブジェクト
+    public GameObject remainMoneyParentObj;
 
     // お金一覧
     public int[] moneyList = { 0 };
@@ -52,6 +54,8 @@ public class ResultMoney : MonoBehaviour
         ShowThrowMoneyText(throwMoneyParentObj);
         // お釣りの表示
         ShowReturnMoneyText(returnMoneyParentObj);
+        // 現在のお金の表示
+        ShowRemainMoneyText(remainMoneyParentObj);
     }
 
     /// <summary>
@@ -108,6 +112,22 @@ public class ResultMoney : MonoBehaviour
 
             // 金種別の表示
             ShowMoneyClassification(i, returnMoneyCount, parent, 18);
+        }
+    }
+
+    /// <summary>
+    /// 残りのお金を表示
+    /// </summary>
+    /// <param name="parent">表示するための親オブジェクト</param>
+    private void ShowRemainMoneyText(GameObject parent)
+    {
+        for (int i = 0; i < managementCountCs.RemainMoneyCount.Length; i++)
+        {
+            // 現在残っているお金を計算
+            managementCountCs.RemainMoneyCount[i] -= managementCountCs.ThrowMoneyCount[i];
+
+            // 金種別の表示
+            ShowMoneyClassification(i, managementCountCs.RemainMoneyCount, parent, 18);
         }
     }
 
