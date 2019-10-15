@@ -20,44 +20,70 @@ public class ResultMoney : MonoBehaviour
     // お釣り
     private int returnMoney;
 
+    // 表示されたかどうか判別
+    private bool isShowed;
+
+    // 結果テキストリスト(クローン、プレハブから取得)
+    private List<GameObject> cloneResultTextList;
+
     // ClickMoneyのスクリプト情報を格納
     private ClickMoney clickMoneyCs;
-    // ClickMoneyがアタッチされているオブジェクト
-    private GameObject attachClickMoneyCsObj;
 
     // ManagementCountのスクリプト情報を格納
     private ManagementCount managementCountCs;
-    // ManagementCountがアタッチされているオブジェクト
-    private GameObject attachManagementCountCsObj;
 
     // CalculationMoneyのスクリプト情報を格納
     private CalculationMoney calculationMoneyCs;
-    // CalculationMoneyがアタッチされているオブジェクト
-    private GameObject attachCalculationMoneyCsObj;
 
+    // VisibleManagerのスクリプト情報を格納
+    private VisibleManager visibleManagerCs;
+    
     // Start is called before the first frame update
     void Start()
     {
+        isShowed = false;
+
+        cloneResultTextList = new List<GameObject>();
+
         // 対象オブジェクトを格納
-        attachClickMoneyCsObj = GameObject.Find("TicketMachineDirector");
+        GameObject attachClickMoneyCsObj = GameObject.Find("TicketMachineDirector");
         // ClickMoneyのスクリプト情報を取得
         clickMoneyCs = attachClickMoneyCsObj.GetComponent<ClickMoney>();
 
         // 対象オブジェクトを格納
-        attachManagementCountCsObj = GameObject.Find("CountArea");
+        GameObject attachManagementCountCsObj = GameObject.Find("CountArea");
         // ManagementCountのスクリプト情報を取得
         managementCountCs = attachManagementCountCsObj.GetComponent<ManagementCount>();
 
         // 対象オブジェクトを格納
-        attachCalculationMoneyCsObj = GameObject.Find("TicketMachineDirector");
+        GameObject attachCalculationMoneyCsObj = GameObject.Find("TicketMachineDirector");
         // CalculationMoneyのスクリプト情報を取得
         calculationMoneyCs = attachCalculationMoneyCsObj.GetComponent<CalculationMoney>();
+
+        // 対象オブジェクトを格納
+        GameObject attachVisibleManagerCsObj = GameObject.Find("TicketMachineDirector");
+        // VisibleManagerのスクリプト情報を取得
+        visibleManagerCs = attachVisibleManagerCsObj.GetComponent<VisibleManager>();
     }
 
     // Update is called once per frame
     void Update()
     {
-          
+        // 初期状態なら
+        if(StateFlow.MachineState == StateFlow.STATE.DEFAULT)
+        {
+            // テキストが生成されていたら
+            if(cloneResultTextList.Count != 0)
+            {
+                // オブジェクトを消す
+                for (int i = 0; i < cloneResultTextList.Count; ++i)
+                {
+                    Destroy(cloneResultTextList[i]);
+                }
+                // 全要素を削除
+                cloneResultTextList.Clear();
+            }
+        }
     }
 
     // 購入結果表示
@@ -139,23 +165,6 @@ public class ResultMoney : MonoBehaviour
     {
         for (int i = 0; i < managementCountCs.RemainMoneyCount.Length; i++)
         {
-            // 電子マネー以外
-            if (i != (int)ClickMoney.SELECTED_MONEY.CREDIT)
-            {
-                // 現在残っているお金を計算
-                managementCountCs.RemainMoneyCount[i] -= managementCountCs.ThrowMoneyCount[i];
-            }
-            // 電子マネー
-            else if(i == (int)ClickMoney.SELECTED_MONEY.CREDIT)
-            {
-                // 電子マネーで支払った場合
-                if(clickMoneyCs.HowToPay == ClickMoney.PAY.DIGITAL_CASH)
-                {
-                    // 現在残っているお金を計算
-                    managementCountCs.RemainMoneyCount[i] = returnMoney;
-                }
-            }
-
             // 金種別の表示
             ShowMoneyClassification(i, managementCountCs.RemainMoneyCount, parent, 18);
         }
@@ -176,35 +185,43 @@ public class ResultMoney : MonoBehaviour
         {
             case (int)ClickMoney.SELECTED_MONEY.TEN:
                 str = countObject[(int)ClickMoney.SELECTED_MONEY.TEN].ToString();
-                CreateMoneyTypeText("10円×" + str, parent, fontSize, TextAnchor.MiddleCenter);
+                cloneResultTextList.Add(
+                    CreateMoneyTypeText("10円×" + str, parent, fontSize, TextAnchor.MiddleCenter));
                 break;
             case (int)ClickMoney.SELECTED_MONEY.FIFTY:
                 str = countObject[(int)ClickMoney.SELECTED_MONEY.FIFTY].ToString();
-                CreateMoneyTypeText("50円×" + str, parent, fontSize, TextAnchor.MiddleCenter);
+                cloneResultTextList.Add(
+                    CreateMoneyTypeText("50円×" + str, parent, fontSize, TextAnchor.MiddleCenter));
                 break;
             case (int)ClickMoney.SELECTED_MONEY.ONE_HUNDRED:
                 str = countObject[(int)ClickMoney.SELECTED_MONEY.ONE_HUNDRED].ToString();
-                CreateMoneyTypeText("100円×" + str, parent, fontSize, TextAnchor.MiddleCenter);
+                cloneResultTextList.Add(
+                    CreateMoneyTypeText("100円×" + str, parent, fontSize, TextAnchor.MiddleCenter));
                 break;
             case (int)ClickMoney.SELECTED_MONEY.FIVE_HUNDRED:
                 str = countObject[(int)ClickMoney.SELECTED_MONEY.FIVE_HUNDRED].ToString();
-                CreateMoneyTypeText("500円×" + str, parent, fontSize, TextAnchor.MiddleCenter);
+                cloneResultTextList.Add(
+                    CreateMoneyTypeText("500円×" + str, parent, fontSize, TextAnchor.MiddleCenter));
                 break;
             case (int)ClickMoney.SELECTED_MONEY.ONE_THOUSAND:
                 str = countObject[(int)ClickMoney.SELECTED_MONEY.ONE_THOUSAND].ToString();
-                CreateMoneyTypeText("1000円×" + str, parent, fontSize, TextAnchor.MiddleCenter);
+                cloneResultTextList.Add(
+                    CreateMoneyTypeText("1000円×" + str, parent, fontSize, TextAnchor.MiddleCenter));
                 break;
             case (int)ClickMoney.SELECTED_MONEY.FIVE_THOUSAND:
                 str = countObject[(int)ClickMoney.SELECTED_MONEY.FIVE_THOUSAND].ToString();
-                CreateMoneyTypeText("5000円×" + str, parent, fontSize, TextAnchor.MiddleCenter);
+                cloneResultTextList.Add(
+                    CreateMoneyTypeText("5000円×" + str, parent, fontSize, TextAnchor.MiddleCenter));
                 break;
             case (int)ClickMoney.SELECTED_MONEY.TEN_THOUSAND:
                 str = countObject[(int)ClickMoney.SELECTED_MONEY.TEN_THOUSAND].ToString();
-                CreateMoneyTypeText("10000円×" + str, parent, fontSize, TextAnchor.MiddleCenter);
+                cloneResultTextList.Add(
+                    CreateMoneyTypeText("10000円×" + str, parent, fontSize, TextAnchor.MiddleCenter));
                 break;
             case (int)ClickMoney.SELECTED_MONEY.CREDIT:
                 str = countObject[(int)ClickMoney.SELECTED_MONEY.CREDIT].ToString();
-                CreateMoneyTypeText("電子マネー  ￥" + str, parent, fontSize, TextAnchor.MiddleCenter);
+                cloneResultTextList.Add(
+                    CreateMoneyTypeText("電子マネー  ￥" + str, parent, fontSize, TextAnchor.MiddleCenter));
                 break;
             default:
                 break;
@@ -218,12 +235,19 @@ public class ResultMoney : MonoBehaviour
     /// <param name="parent">表示するための親オブジェクト</param>
     /// <param name="fontSize">フォントサイズ</param>
     /// <param name="textAnchor">アラインメント</param>
-    private void CreateMoneyTypeText(string moneyType, GameObject parent, int fontSize, TextAnchor textAnchor)
+    private GameObject CreateMoneyTypeText(string moneyType, GameObject parent, int fontSize, TextAnchor textAnchor)
     {
         GameObject obj = Instantiate(textPrefab);
         obj.gameObject.GetComponent<Text>().text = moneyType;
         obj.transform.SetParent(parent.transform, false);
         obj.GetComponent<Text>().fontSize = fontSize;
         obj.GetComponent<Text>().alignment = textAnchor;
+
+        return obj;
     }
+
+    /// <summary>
+    /// 表示状態取得・設定関数
+    /// </summary>
+    public bool IsShowed { get { return isShowed; } set { isShowed = value; } }
 }

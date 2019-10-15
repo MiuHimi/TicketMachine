@@ -18,41 +18,25 @@ public class CalculationMoney : MonoBehaviour
     // チケットを購入したかどうか
     private bool isFinishBuy;
 
-    // ClickMoneyのスクリプト情報を格納
-    private ClickMoney clickMoneyCs;
-    // ClickMoneyがアタッチされているオブジェクト
-    private GameObject attachClickMoneyCsObj;
-
-    // ResultMoneyのスクリプト情報を格納
-    private ResultMoney resultMoneyCs;
-    // ResultMoneyがアタッチされているオブジェクト
-    private GameObject attachResultMoneyCsObj;
-
     // Start is called before the first frame update
     void Start()
     {
+        // 不足分オブジェクト初期化
         difictObject = GameObject.Find("DeficitMoneyText");
         dificitMoney = 0;
         difictText = difictObject.GetComponent<Text>();
 
+        // お釣り初期化
         returnMoney = 0;
 
+        // 購入済みかどうかフラグを初期化
         isFinishBuy = false;
-
-        // 対象オブジェクトを格納
-        attachClickMoneyCsObj = GameObject.Find("TicketMachineDirector");
-        // ClickMoneyのスクリプト情報を取得
-        clickMoneyCs = attachClickMoneyCsObj.GetComponent<ClickMoney>();
-
-        // 対象オブジェクトを格納
-        attachResultMoneyCsObj = GameObject.Find("TickectMachineArea");
-        // StateFlowのスクリプト情報を取得
-        resultMoneyCs = attachResultMoneyCsObj.GetComponent<ResultMoney>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        // 不足分テキスト
         difictText.text = dificitMoney.ToString();
     }
 
@@ -60,19 +44,22 @@ public class CalculationMoney : MonoBehaviour
     // お釣りが出る場合、金額を保持
     public void ThrowMoney(int throwMoney)
     {
+        // 不足金額から投入金額を引く
         dificitMoney -= throwMoney;
+
+        // 不足金額が0以下
+        // (必要な分だけ投入されたら)
         if (dificitMoney <= 0)
         {
-            // 正の値にして保存
+            // 正の値にしてお釣り保存
             returnMoney = dificitMoney * -1;
-            Debug.Log(returnMoney);
-            // 不足分は0円
+            // 不足分は0円にしておく
             dificitMoney = 0;
             // 購入完了
             isFinishBuy = true;
 
-            // 結果画面を表示
-            resultMoneyCs.ShowResultMoney();
+            // 「購入完了」に変更
+            StateFlow.MachineState = StateFlow.STATE.GET_TICKET;
         }
     }
 

@@ -39,11 +39,6 @@ public class ClickMoney : MonoBehaviour
     // レイの飛ばせる距離
     private float rayDistance;
 
-    // StateFlowのスクリプト情報を格納
-    private StateFlow stateFlowCs;
-    // StateFlowがアタッチされているオブジェクト
-    private GameObject attachStateFlowCsObj;
-
     // CalculationMoneyのスクリプト情報を格納
     private CalculationMoney calculationMoneyCs;
     // CalculationMoneyがアタッチされているオブジェクト
@@ -62,11 +57,6 @@ public class ClickMoney : MonoBehaviour
         rayDistance = 200.0f;
 
         // 対象オブジェクトを格納
-        attachStateFlowCsObj = GameObject.Find("TicketMachineDirector");
-        // StateFlowのスクリプト情報を取得
-        stateFlowCs = attachStateFlowCsObj.GetComponent<StateFlow>();
-
-        // 対象オブジェクトを格納
         attachCalculationMoneyCsObj = GameObject.Find("TicketMachineDirector");
         // CalculationMoneyのスクリプト情報を取得
         calculationMoneyCs = attachCalculationMoneyCsObj.GetComponent<CalculationMoney>();
@@ -79,12 +69,7 @@ public class ClickMoney : MonoBehaviour
         selectedMoney = SELECTED_MONEY.NOT_SELECT;
 
         // 切符を購入できるまで投入が可能
-        if (calculationMoneyCs.IsFinishBuy)
-        {
-            stateFlowCs.MachineState = StateFlow.STATE.GET_TICKET;
-            Debug.Log(stateFlowCs.MachineState);
-            return;
-        }
+        if (calculationMoneyCs.IsFinishBuy) return;
 
         // クリックしたとき
         if (Input.GetMouseButtonDown(0))
@@ -98,8 +83,8 @@ public class ClickMoney : MonoBehaviour
                 string objectName = hit.collider.gameObject.name;
 
                 // 「購入」ボタンが押されていて、金銭が投入中だったら
-                if(stateFlowCs.MachineState >= StateFlow.STATE.PUSH_BUY_BUTTON &&
-                   stateFlowCs.MachineState <= StateFlow.STATE.THROW_CASH)
+                if(StateFlow.MachineState >= StateFlow.STATE.PUSH_BUY_BUTTON &&
+                   StateFlow.MachineState <= StateFlow.STATE.THROW_CASH)
                 {
                     // 投入されたものが現金だったら
                     if (objectName == "10yen" || objectName == "50yen" ||
@@ -164,8 +149,8 @@ public class ClickMoney : MonoBehaviour
                         default:            Debug.Log("お金払って");         break;
                     }
                     // 券売機の状態を「金銭投入中」にする
-                    stateFlowCs.MachineState = StateFlow.STATE.THROW_CASH;
-                    Debug.Log(stateFlowCs.MachineState);
+                    StateFlow.MachineState = StateFlow.STATE.THROW_CASH;
+                    Debug.Log(StateFlow.MachineState);
                 }
             }
         }

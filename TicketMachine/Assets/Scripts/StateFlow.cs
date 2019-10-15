@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StateFlow : MonoBehaviour
+public static class StateFlow
 {
     // 券売機の状態
     public enum STATE
@@ -15,23 +15,10 @@ public class StateFlow : MonoBehaviour
 
     // 券売機の状態を保持
     [SerializeField]
-    private STATE machineState;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        // 初期状態
-        machineState = STATE.DEFAULT;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    static private STATE machineState = STATE.DEFAULT;
 
     /// <summary>
     /// 取得・設定関数
     /// </summary>
-    public STATE MachineState { get { return machineState; } set { machineState = value; } }
+    public static STATE MachineState { get { return machineState; } set { machineState = value; } }
 }

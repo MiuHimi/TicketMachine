@@ -22,6 +22,13 @@ public class ManagementCount : MonoBehaviour
     // 電子マネーの残量
     private Text digitalCashAmount;
 
+    // お金一覧
+    public int[] moneyList = { 0 };
+
+    // 全てのお金の枚数を保持
+    [SerializeField]
+    private int[] maxMoneyCount = { 0 };
+
     // 残りのお金を保持
     private int[] remainMoneyCount = { 0 };
 
@@ -61,18 +68,13 @@ public class ManagementCount : MonoBehaviour
         tenThousandAmount = tenThousand.GetComponent<Text>();
         digitalCashAmount = digitalCash.GetComponent<Text>();
 
-        // 残りのお金を保持
-        remainMoneyCount = new int[]
+        // 要素数確保
+        remainMoneyCount = new int[maxMoneyCount.Length];
+        // 全てのお金と残りのお金を初期化
+        for (int i = 0; i< maxMoneyCount.Length;i++)
         {
-            StringToInt(ten.GetComponent<Text>().text.ToString()),
-            StringToInt(fifty.GetComponent<Text>().text.ToString()),
-            StringToInt(oneHundred.GetComponent<Text>().text.ToString()),
-            StringToInt(fiveHundred.GetComponent<Text>().text.ToString()),
-            StringToInt(oneThousand.GetComponent<Text>().text.ToString()),
-            StringToInt(fiveThousand.GetComponent<Text>().text.ToString()),
-            StringToInt(tenThousand.GetComponent<Text>().text.ToString()),
-            StringToInt(digitalCash.GetComponent<Text>().text.ToString())
-        };
+            remainMoneyCount[i] = maxMoneyCount[i];
+        }
 
         // 初期化(最初はすべて0)
         throwMoneyCount = new int[] { 0, 0, 0, 0, 0, 0, 0, 0 };
@@ -95,46 +97,111 @@ public class ManagementCount : MonoBehaviour
         {
             case ClickMoney.SELECTED_MONEY.TEN:
                 throwMoneyCount[(int)ClickMoney.SELECTED_MONEY.TEN]++;
+                remainMoneyCount[(int)ClickMoney.SELECTED_MONEY.TEN] =
+                    maxMoneyCount[(int)ClickMoney.SELECTED_MONEY.TEN] - throwMoneyCount[(int)ClickMoney.SELECTED_MONEY.TEN];
+                if (remainMoneyCount[(int)ClickMoney.SELECTED_MONEY.TEN] < 0) remainMoneyCount[(int)ClickMoney.SELECTED_MONEY.TEN] = 0;
                 DisCount((int)ClickMoney.SELECTED_MONEY.TEN);
                 calculationMoneyCs.ThrowMoney(10);
                 break;
             case ClickMoney.SELECTED_MONEY.FIFTY:
                 throwMoneyCount[(int)ClickMoney.SELECTED_MONEY.FIFTY]++;
+                remainMoneyCount[(int)ClickMoney.SELECTED_MONEY.FIFTY] =
+                    maxMoneyCount[(int)ClickMoney.SELECTED_MONEY.FIFTY] - throwMoneyCount[(int)ClickMoney.SELECTED_MONEY.FIFTY];
+                if (remainMoneyCount[(int)ClickMoney.SELECTED_MONEY.FIFTY] < 0) remainMoneyCount[(int)ClickMoney.SELECTED_MONEY.FIFTY] = 0;
                 DisCount((int)ClickMoney.SELECTED_MONEY.FIFTY);
                 calculationMoneyCs.ThrowMoney(50);
                 break;
             case ClickMoney.SELECTED_MONEY.ONE_HUNDRED:
                 throwMoneyCount[(int)ClickMoney.SELECTED_MONEY.ONE_HUNDRED]++;
+                remainMoneyCount[(int)ClickMoney.SELECTED_MONEY.ONE_HUNDRED] =
+                    maxMoneyCount[(int)ClickMoney.SELECTED_MONEY.ONE_HUNDRED] - throwMoneyCount[(int)ClickMoney.SELECTED_MONEY.ONE_HUNDRED];
+                if (remainMoneyCount[(int)ClickMoney.SELECTED_MONEY.ONE_HUNDRED] < 0) remainMoneyCount[(int)ClickMoney.SELECTED_MONEY.ONE_HUNDRED] = 0;
                 DisCount((int)ClickMoney.SELECTED_MONEY.ONE_HUNDRED);
                 calculationMoneyCs.ThrowMoney(100);
                 break;
             case ClickMoney.SELECTED_MONEY.FIVE_HUNDRED:
                 throwMoneyCount[(int)ClickMoney.SELECTED_MONEY.FIVE_HUNDRED]++;
+                remainMoneyCount[(int)ClickMoney.SELECTED_MONEY.FIVE_HUNDRED] =
+                    maxMoneyCount[(int)ClickMoney.SELECTED_MONEY.FIVE_HUNDRED] - throwMoneyCount[(int)ClickMoney.SELECTED_MONEY.FIVE_HUNDRED];
+                if (remainMoneyCount[(int)ClickMoney.SELECTED_MONEY.FIVE_HUNDRED] < 0) remainMoneyCount[(int)ClickMoney.SELECTED_MONEY.FIVE_HUNDRED] = 0;
                 DisCount((int)ClickMoney.SELECTED_MONEY.FIVE_HUNDRED);
                 calculationMoneyCs.ThrowMoney(500);
                 break;
             case ClickMoney.SELECTED_MONEY.ONE_THOUSAND:
                 throwMoneyCount[(int)ClickMoney.SELECTED_MONEY.ONE_THOUSAND]++;
+                remainMoneyCount[(int)ClickMoney.SELECTED_MONEY.ONE_THOUSAND] =
+                    maxMoneyCount[(int)ClickMoney.SELECTED_MONEY.ONE_THOUSAND] - throwMoneyCount[(int)ClickMoney.SELECTED_MONEY.ONE_THOUSAND];
+                if (remainMoneyCount[(int)ClickMoney.SELECTED_MONEY.ONE_THOUSAND] < 0) remainMoneyCount[(int)ClickMoney.SELECTED_MONEY.ONE_THOUSAND] = 0;
                 DisCount((int)ClickMoney.SELECTED_MONEY.ONE_THOUSAND);
                 calculationMoneyCs.ThrowMoney(1000);
                 break;
             case ClickMoney.SELECTED_MONEY.FIVE_THOUSAND:
                 throwMoneyCount[(int)ClickMoney.SELECTED_MONEY.FIVE_THOUSAND]++;
+                remainMoneyCount[(int)ClickMoney.SELECTED_MONEY.FIVE_THOUSAND] =
+                    maxMoneyCount[(int)ClickMoney.SELECTED_MONEY.FIVE_THOUSAND] - throwMoneyCount[(int)ClickMoney.SELECTED_MONEY.FIVE_THOUSAND];
+                if (remainMoneyCount[(int)ClickMoney.SELECTED_MONEY.FIVE_THOUSAND] < 0) remainMoneyCount[(int)ClickMoney.SELECTED_MONEY.FIVE_THOUSAND] = 0;
                 DisCount((int)ClickMoney.SELECTED_MONEY.FIVE_THOUSAND);
                 calculationMoneyCs.ThrowMoney(5000);
                 break;
             case ClickMoney.SELECTED_MONEY.TEN_THOUSAND:
                 throwMoneyCount[(int)ClickMoney.SELECTED_MONEY.TEN_THOUSAND]++;
+                remainMoneyCount[(int)ClickMoney.SELECTED_MONEY.TEN_THOUSAND] =
+                    maxMoneyCount[(int)ClickMoney.SELECTED_MONEY.TEN_THOUSAND] - throwMoneyCount[(int)ClickMoney.SELECTED_MONEY.TEN_THOUSAND];
+                if (remainMoneyCount[(int)ClickMoney.SELECTED_MONEY.TEN_THOUSAND] < 0) remainMoneyCount[(int)ClickMoney.SELECTED_MONEY.TEN_THOUSAND] = 0;
                 DisCount((int)ClickMoney.SELECTED_MONEY.TEN_THOUSAND);
                 calculationMoneyCs.ThrowMoney(10000);
                 break;
             case ClickMoney.SELECTED_MONEY.CREDIT:
                 throwMoneyCount[(int)ClickMoney.SELECTED_MONEY.CREDIT] = remainMoneyCount[(int)ClickMoney.SELECTED_MONEY.CREDIT];
+                remainMoneyCount[(int)ClickMoney.SELECTED_MONEY.CREDIT] =
+                    maxMoneyCount[(int)ClickMoney.SELECTED_MONEY.CREDIT] - throwMoneyCount[(int)ClickMoney.SELECTED_MONEY.CREDIT];
                 DisCount((int)ClickMoney.SELECTED_MONEY.CREDIT);
                 calculationMoneyCs.ThrowMoney(1000);
                 break;
             default:
                 break;
+        }
+
+        for (int i = 0; i < (int)ClickMoney.SELECTED_MONEY.NOT_SELECT/*最大値*/; i++)
+        {
+            int count = 0;
+            switch (i)
+            {
+                case (int)ClickMoney.SELECTED_MONEY.TEN:
+                    count = RemainMoneyCount[i];
+                    tenAmount.text = count.ToString();
+                    break;
+                case (int)ClickMoney.SELECTED_MONEY.FIFTY:
+                    count = RemainMoneyCount[i];
+                    fiftyAmount.text = count.ToString();
+                    break;
+                case (int)ClickMoney.SELECTED_MONEY.ONE_HUNDRED:
+                    count = RemainMoneyCount[i];
+                    oneHundredAmount.text = count.ToString();
+                    break;
+                case (int)ClickMoney.SELECTED_MONEY.FIVE_HUNDRED:
+                    count = RemainMoneyCount[i];
+                    fiveHundredAmount.text = count.ToString();
+                    break;
+                case (int)ClickMoney.SELECTED_MONEY.ONE_THOUSAND:
+                    count = RemainMoneyCount[i];
+                    oneThousandAmount.text = count.ToString();
+                    break;
+                case (int)ClickMoney.SELECTED_MONEY.FIVE_THOUSAND:
+                    count = RemainMoneyCount[i];
+                    fiveThousandAmount.text = count.ToString();
+                    break;
+                case (int)ClickMoney.SELECTED_MONEY.TEN_THOUSAND:
+                    count = RemainMoneyCount[i];
+                    tenThousandAmount.text = count.ToString();
+                    break;
+                case (int)ClickMoney.SELECTED_MONEY.CREDIT:
+                    count = RemainMoneyCount[i];
+                    digitalCashAmount.text = count.ToString();
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
@@ -228,11 +295,21 @@ public class ManagementCount : MonoBehaviour
         }
     }
 
+    public void ReturnMoneyToRemainMoney(int i, int returnMoney)
+    {
+        RemainMoneyCount[i] += returnMoney;
+    }
+
     // stringからintへ変換して値を返す
     private int StringToInt(string text)
     {
         return int.Parse(text);
     }
+
+    /// <summary>
+    /// お金一覧取得・設定関数
+    /// </summary>
+    public int[] MoneyList { get { return moneyList; } set { moneyList = value; } }
 
     /// <summary>
     /// 残りのお金取得・設定関数

@@ -4,27 +4,16 @@ using UnityEngine;
 
 public class EndButtonAction : MonoBehaviour
 {
-    // StateFlowのスクリプト情報を格納
-    private StateFlow stateFlowCs;
-
     // Start is called before the first frame update
     void Start()
     {
-        // 対象オブジェクトを格納
-        GameObject attachStateFlowCsObj = GameObject.Find("TicketMachineDirector");
-        // StateFlowのスクリプト情報を取得
-        stateFlowCs = attachStateFlowCsObj.GetComponent<StateFlow>();
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        // 購入が完了していなかったら
-        if (stateFlowCs.MachineState != StateFlow.STATE.GET_TICKET)
-        {
-            // 非表示にする
-            this.gameObject.SetActive(false);
-        }
+
     }
 
     /// <summary>
