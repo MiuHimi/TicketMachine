@@ -31,7 +31,7 @@ public class ClickMoney : MonoBehaviour
     // 支払い方法
     private PAY howToPay;
 
-    // 支払うもの
+    // 支払う金種
     private SELECTED_MONEY selectedMoney;
 
     // レイが当たったオブジェクトの情報を入れる
@@ -41,8 +41,9 @@ public class ClickMoney : MonoBehaviour
 
     // CalculationMoneyのスクリプト情報を格納
     private CalculationMoney calculationMoneyCs;
-    // CalculationMoneyがアタッチされているオブジェクト
-    private GameObject attachCalculationMoneyCsObj;
+
+    // ManagementMoneyのスクリプト情報を格納
+    private ManagementMoney managementMoneyCs;
 
     // Start is called before the first frame update
     void Start()
@@ -57,9 +58,14 @@ public class ClickMoney : MonoBehaviour
         rayDistance = 200.0f;
 
         // 対象オブジェクトを格納
-        attachCalculationMoneyCsObj = GameObject.Find("TicketMachineDirector");
+        GameObject attachCalculationMoneyCsObj = GameObject.Find("TicketMachineDirector");
         // CalculationMoneyのスクリプト情報を取得
         calculationMoneyCs = attachCalculationMoneyCsObj.GetComponent<CalculationMoney>();
+
+        // 対象オブジェクトを格納
+        GameObject attachManagementMoneyCsObj = GameObject.Find("MoneyArea");
+        // ManagementMoneyのスクリプト情報を取得
+        managementMoneyCs = attachManagementMoneyCsObj.GetComponent<ManagementMoney>();
     }
 
     // Update is called once per frame
@@ -98,61 +104,99 @@ public class ClickMoney : MonoBehaviour
                         objectName == "1000yen" || objectName == "5000yen" ||
                         objectName == "10000yen")
                     {
-                        // 支払い方法を現金に設定
+                        // 支払い方法が未定なら
                         if (howToPay == PAY.NONE)
                         {
+                            // 支払い方法を現金に設定
                             howToPay = PAY.CASH;
-                            // 現金の場合の代金
+                            // 現金の場合の代金設定
                             calculationMoneyCs.DificitMoney = 130;
                         }
                     }
                     // 電子マネーだったら
                     else if(objectName == "DigitalCash")
                     {
-                        // 支払い方法を電子マネーに設定
+                        // 支払い方法が未定なら
                         if (howToPay == PAY.NONE)
-                        {
+                        {   
+                            // 支払い方法を電子マネーに設定
                             howToPay = PAY.DIGITAL_CASH;
-                            // 電子マネーの場合の代金
+                            // 電子マネーの場合の代金設定
                             calculationMoneyCs.DificitMoney = 124;
                         }
                     }
 
+                    // 金種別の選択
                     switch (objectName)
                     {
                         case "10yen":
-                            // 10円を選択
-                            if (howToPay == PAY.CASH) selectedMoney = SELECTED_MONEY.TEN;
+                            // 選択した金種に問題があるかをチェック
+                            if (CheckHowToPayAndRemainMoney(PAY.CASH, SELECTED_MONEY.TEN))
+                            {
+                                // 10円を選択
+                                selectedMoney = SELECTED_MONEY.TEN;
+                            }
                             break;
                         case "50yen":
-                            // 50円を選択
-                            if (howToPay == PAY.CASH) selectedMoney = SELECTED_MONEY.FIFTY;
+                            // 選択した金種に問題があるかをチェック
+                            if (CheckHowToPayAndRemainMoney(PAY.CASH, SELECTED_MONEY.FIFTY))
+                            {
+                                // 50円を選択
+                                selectedMoney = SELECTED_MONEY.FIFTY;
+                            }
                             break;
                         case "100yen":
-                            // 100円を選択
-                            if (howToPay == PAY.CASH) selectedMoney = SELECTED_MONEY.ONE_HUNDRED;
+                            // 選択した金種に問題があるかをチェック
+                            if (CheckHowToPayAndRemainMoney(PAY.CASH, SELECTED_MONEY.ONE_HUNDRED))
+                            {
+                                // 100円を選択
+                                selectedMoney = SELECTED_MONEY.ONE_HUNDRED;
+                            }
                             break;
                         case "500yen":
-                            // 500円を選択
-                            if (howToPay == PAY.CASH) selectedMoney = SELECTED_MONEY.FIVE_HUNDRED;
+                            // 選択した金種に問題があるかをチェック
+                            if (CheckHowToPayAndRemainMoney(PAY.CASH, SELECTED_MONEY.FIVE_HUNDRED))
+                            {
+                                // 500円を選択
+                                selectedMoney = SELECTED_MONEY.FIVE_HUNDRED;
+                            }
                             break;
                         case "1000yen":
-                            // 1000円を選択
-                            if (howToPay == PAY.CASH) selectedMoney = SELECTED_MONEY.ONE_THOUSAND;
+                            // 選択した金種に問題があるかをチェック
+                            if (CheckHowToPayAndRemainMoney(PAY.CASH, SELECTED_MONEY.ONE_THOUSAND))
+                            {
+                                // 1000円を選択
+                                selectedMoney = SELECTED_MONEY.ONE_THOUSAND;
+                            }
                             break;
                         case "5000yen":
-                            // 5000円を選択
-                            if (howToPay == PAY.CASH) selectedMoney = SELECTED_MONEY.FIVE_THOUSAND;
+                            // 選択した金種に問題があるかをチェック
+                            if (CheckHowToPayAndRemainMoney(PAY.CASH, SELECTED_MONEY.FIVE_THOUSAND))
+                            {
+                                // 5000円を選択
+                                selectedMoney = SELECTED_MONEY.FIVE_THOUSAND;
+                            }
                             break;
                         case "10000yen":
-                            // 10000円を選択
-                            if (howToPay == PAY.CASH) selectedMoney = SELECTED_MONEY.TEN_THOUSAND;
+                            // 選択した金種に問題があるかをチェック
+                            if (CheckHowToPayAndRemainMoney(PAY.CASH, SELECTED_MONEY.TEN_THOUSAND))
+                            {
+                                // 10000円を選択
+                                selectedMoney = SELECTED_MONEY.TEN_THOUSAND;
+                            }
                             break;
                         case "DigitalCash":
-                            // ICカードを選択
-                            if (howToPay == PAY.DIGITAL_CASH) selectedMoney = SELECTED_MONEY.CREDIT;
+                            // 選択した金種に問題があるかをチェック
+                            if (CheckHowToPayAndRemainMoney(PAY.DIGITAL_CASH, SELECTED_MONEY.CREDIT))
+                            {
+                                // ICカードを選択
+                                selectedMoney = SELECTED_MONEY.CREDIT;
+                            }
                             break;
-                        default:            Debug.Log("お金払って");         break;
+                        default:
+                            // 選択されたものがお金ではない場合
+                            Debug.Log("お金払って");
+                            break;
                     }
                     // 券売機の状態を「金銭投入中」にする
                     StateFlow.MachineState = StateFlow.STATE.THROW_CASH;
@@ -160,6 +204,25 @@ public class ClickMoney : MonoBehaviour
                 }
             }
         }
+    }
+
+    /// <summary>
+    /// 支払い方法が最初に選択したお金(現金or電子マネー)と同じで
+    /// 選択した金種がまだ所持金にあるかどうかをチェック
+    /// </summary>
+    /// <param name="selectedPay">決定された支払い方法</param>
+    /// <param name="selectedMoney">選択した金種</param>
+    /// <returns>true=どちらも問題なし、false=どちらかあるいはどちらも問題あり</returns>
+    private bool CheckHowToPayAndRemainMoney(PAY selectedPay, SELECTED_MONEY selectedMoney)
+    {
+        // 問題がないならtrueを返す
+        if (howToPay == selectedPay &&
+            managementMoneyCs.RemainMoneyCount[(int)selectedMoney] > 0)
+        {
+            return true;
+        }
+
+        return false;
     }
 
     /// <summary>
