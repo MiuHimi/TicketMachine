@@ -195,12 +195,10 @@ public class ClickMoney : MonoBehaviour
                             break;
                         default:
                             // 選択されたものがお金ではない場合
-                            Debug.Log("お金払って");
                             break;
                     }
                     // 券売機の状態を「金銭投入中」にする
                     StateFlow.MachineState = StateFlow.STATE.THROW_CASH;
-                    Debug.Log(StateFlow.MachineState);
                 }
             }
         }
