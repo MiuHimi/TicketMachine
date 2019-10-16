@@ -65,6 +65,12 @@ public class ClickMoney : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // 初期状態だったら
+        if(StateFlow.MachineState == StateFlow.STATE.DEFAULT)
+        {
+            howToPay = PAY.NONE;
+        }
+
         // クリックされていないときは非選択に
         selectedMoney = SELECTED_MONEY.NOT_SELECT;
 

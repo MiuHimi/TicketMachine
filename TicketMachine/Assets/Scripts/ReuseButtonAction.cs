@@ -24,12 +24,6 @@ public class ReuseButtonAction : MonoBehaviour
         managementCountCs = attachManagementCountCsObj.GetComponent<ManagementCount>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     /// <summary>
     /// 表示/非表示切り替え
     /// </summary>
@@ -76,6 +70,19 @@ public class ReuseButtonAction : MonoBehaviour
                 managementCountCs.ReturnMoneyToRemainMoney(i, returnMoneyCount[i]);
             }
         }
+
+        // 購入完了だったら
+        if (StateFlow.MachineState == StateFlow.STATE.GET_TICKET)
+        {
+            // 所持金から金種別の最大値を設定
+            for (int i = 0; i < (int)ClickMoney.SELECTED_MONEY.NOT_SELECT/*(最大値)*/; i++)
+            {
+                managementCountCs.MaxMoneyCount[i] = managementCountCs.RemainMoneyCount[i];
+            }
+        }
+
+        // 終了フラグをfalseにする
+        calculationMoneyCs.IsFinishBuy = false;
 
         // 最初の状態に戻す
         StateFlow.MachineState = StateFlow.STATE.DEFAULT;

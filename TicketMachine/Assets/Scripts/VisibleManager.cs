@@ -166,18 +166,9 @@ public class VisibleManager : MonoBehaviour
             {
                 Destroy(cloneEndButton);
             }
-        }
-    }
 
-    /// <summary>
-    /// オブジェクトが存在していたら消す(Destroyする)
-    /// </summary>
-    /// <param name="obj">存在を確かめるオブジェクト</param>
-    public void CheckObjectDestroy(GameObject obj)
-    {
-        if (obj)
-        {
-            Destroy(obj);
+            // 結果画面表示フラグをfalseに
+            resultMoneyCs.IsShowed = false;
         }
     }
 }

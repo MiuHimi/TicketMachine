@@ -93,6 +93,17 @@ public class ManagementCount : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // 初期状態だったら
+        if(StateFlow.MachineState == StateFlow.STATE.DEFAULT)
+        {
+            // 投入金額の枚数は0にする
+            for (int i = 0; i < (int)ClickMoney.SELECTED_MONEY.NOT_SELECT/*(最大値)*/; i++)
+            {
+                throwMoneyCount[i] = 0;
+            }
+        }
+
+        // 選択された金種に応じて処理を変える
         switch (clickMoneyCs.SelectedMoney)
         {
             case ClickMoney.SELECTED_MONEY.TEN:
@@ -153,9 +164,12 @@ public class ManagementCount : MonoBehaviour
                 break;
             case ClickMoney.SELECTED_MONEY.CREDIT:
                 throwMoneyCount[(int)ClickMoney.SELECTED_MONEY.CREDIT] = remainMoneyCount[(int)ClickMoney.SELECTED_MONEY.CREDIT];
-                remainMoneyCount[(int)ClickMoney.SELECTED_MONEY.CREDIT] =
-                    maxMoneyCount[(int)ClickMoney.SELECTED_MONEY.CREDIT] - throwMoneyCount[(int)ClickMoney.SELECTED_MONEY.CREDIT];
+                // 最大枚数から投入枚数を引いて現在の枚数を更新
+                remainMoneyCount[(int)ClickMoney.SELECTED_MONEY.CREDIT] -= calculationMoneyCs.DificitMoney;
+                //    maxMoneyCount[(int)ClickMoney.SELECTED_MONEY.CREDIT] - throwMoneyCount[(int)ClickMoney.SELECTED_MONEY.CREDIT];
+                // 所持金から不足分を引く(所持金の更新)
                 DisCount((int)ClickMoney.SELECTED_MONEY.CREDIT);
+                // 不足分から投入金額を引く(不足金額とお釣りの更新)
                 calculationMoneyCs.ThrowMoney(1000);
                 break;
             default:
@@ -310,6 +324,12 @@ public class ManagementCount : MonoBehaviour
     /// お金一覧取得・設定関数
     /// </summary>
     public int[] MoneyList { get { return moneyList; } set { moneyList = value; } }
+
+    /// <summary>
+    /// 金種別の最大値取得・設定関数
+    /// </summary>
+    public int[] MaxMoneyCount { get { return maxMoneyCount; } set { maxMoneyCount = value; } }
+
 
     /// <summary>
     /// 残りのお金取得・設定関数
