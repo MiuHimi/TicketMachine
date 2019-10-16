@@ -2096,7 +2096,6 @@ GameObject:
   m_Component:
   - component: {fileID: 907350635}
   - component: {fileID: 907350636}
-  - component: {fileID: 907350637}
   m_Layer: 5
   m_Name: CountArea
   m_TagString: Untagged
@@ -2156,20 +2155,6 @@ MonoBehaviour:
   m_ChildControlHeight: 0
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
---- !u!114 &907350637
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 907350634}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0024d29ce4cc96d438ba57f0816dd7a9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moneyList: 0a0000003200000064000000f4010000e80300008813000010270000e8030000
-  maxMoneyCount: 0f000000030000000200000001000000010000000100000001000000e8030000
 --- !u!1 &988596922
 GameObject:
   m_ObjectHideFlags: 0
@@ -3660,6 +3645,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1635610874}
+  - component: {fileID: 1635610876}
   m_Layer: 5
   m_Name: MoneyArea
   m_TagString: Untagged
@@ -3688,6 +3674,20 @@ RectTransform:
   m_AnchoredPosition: {x: 300, y: 0}
   m_SizeDelta: {x: 200, y: 450}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1635610876
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1635610873}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2877947db8f71e4baf2c858fe83df12, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moneyList: 0a0000003200000064000000f4010000e80300008813000010270000e8030000
+  maxMoneyCount: 0f000000030000000200000001000000010000000100000001000000e8030000
 --- !u!1 &1642277924
 GameObject:
   m_ObjectHideFlags: 0

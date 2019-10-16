@@ -29,8 +29,8 @@ public class ResultMoney : MonoBehaviour
     // ClickMoneyのスクリプト情報を格納
     private ClickMoney clickMoneyCs;
 
-    // ManagementCountのスクリプト情報を格納
-    private ManagementCount managementCountCs;
+    // ManagementMoneyのスクリプト情報を格納
+    private ManagementMoney managementMoneyCs;
 
     // CalculationMoneyのスクリプト情報を格納
     private CalculationMoney calculationMoneyCs;
@@ -51,9 +51,9 @@ public class ResultMoney : MonoBehaviour
         clickMoneyCs = attachClickMoneyCsObj.GetComponent<ClickMoney>();
 
         // 対象オブジェクトを格納
-        GameObject attachManagementCountCsObj = GameObject.Find("CountArea");
-        // ManagementCountのスクリプト情報を取得
-        managementCountCs = attachManagementCountCsObj.GetComponent<ManagementCount>();
+        GameObject attachManagementMoneyCsObj = GameObject.Find("MoneyArea");
+        // ManagementMoneyのスクリプト情報を取得
+        managementMoneyCs = attachManagementMoneyCsObj.GetComponent<ManagementMoney>();
 
         // 対象オブジェクトを格納
         GameObject attachCalculationMoneyCsObj = GameObject.Find("TicketMachineDirector");
@@ -103,13 +103,13 @@ public class ResultMoney : MonoBehaviour
     /// <param name="parent">表示するための親オブジェクト</param>
     private void ShowThrowMoneyText(GameObject parent)
     {
-        for (int i = 0; i < managementCountCs.ThrowMoneyCount.Length; i++)
+        for (int i = 0; i < managementMoneyCs.ThrowMoneyCount.Length; i++)
         {
             // 投入していないものはスキップ
-            if (managementCountCs.ThrowMoneyCount[i] == 0) continue;
+            if (managementMoneyCs.ThrowMoneyCount[i] == 0) continue;
 
             // 金種別の表示
-            ShowMoneyClassification(i, managementCountCs.ThrowMoneyCount, parent, 18);
+            ShowMoneyClassification(i, managementMoneyCs.ThrowMoneyCount, parent, 18);
         }
     }
 
@@ -163,10 +163,10 @@ public class ResultMoney : MonoBehaviour
     /// <param name="parent">表示するための親オブジェクト</param>
     private void ShowRemainMoneyText(GameObject parent)
     {
-        for (int i = 0; i < managementCountCs.RemainMoneyCount.Length; i++)
+        for (int i = 0; i < managementMoneyCs.RemainMoneyCount.Length; i++)
         {
             // 金種別の表示
-            ShowMoneyClassification(i, managementCountCs.RemainMoneyCount, parent, 18);
+            ShowMoneyClassification(i, managementMoneyCs.RemainMoneyCount, parent, 18);
         }
     }
 

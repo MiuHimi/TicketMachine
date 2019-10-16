@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ManagementCount : MonoBehaviour
+public class ManagementMoney : MonoBehaviour
 {
     // 10円の残量
     private Text tenAmount;
@@ -37,13 +37,9 @@ public class ManagementCount : MonoBehaviour
 
     // ClickMoneyのスクリプト情報を格納
     private ClickMoney clickMoneyCs;
-    // ClickMoneyがアタッチされているオブジェクト
-    private GameObject attachClickMoneyCsObj;
 
     // CalculationMoneyのスクリプト情報を格納
     private CalculationMoney calculationMoneyCs;
-    // CalculationMoneyがアタッチされているオブジェクト
-    private GameObject attachCalculationMoneyCsObj;
 
     // Start is called before the first frame update
     void Start()
@@ -57,11 +53,11 @@ public class ManagementCount : MonoBehaviour
         GameObject fiveThousand = GameObject.Find("5000yenText");
         GameObject tenThousand = GameObject.Find("10000yenText");
         GameObject digitalCash = GameObject.Find("DisitalCashText");
-        
+
         // 対象のテキストを格納
         tenAmount = ten.GetComponent<Text>();
         fiftyAmount = fifty.GetComponent<Text>();
-        oneHundredAmount= oneHundred.GetComponent<Text>();
+        oneHundredAmount = oneHundred.GetComponent<Text>();
         fiveHundredAmount = fiveHundred.GetComponent<Text>();
         oneThousandAmount = oneThousand.GetComponent<Text>();
         fiveThousandAmount = fiveThousand.GetComponent<Text>();
@@ -71,7 +67,7 @@ public class ManagementCount : MonoBehaviour
         // 要素数確保
         remainMoneyCount = new int[maxMoneyCount.Length];
         // 全てのお金と残りのお金を初期化
-        for (int i = 0; i< maxMoneyCount.Length;i++)
+        for (int i = 0; i < maxMoneyCount.Length; i++)
         {
             remainMoneyCount[i] = maxMoneyCount[i];
         }
@@ -80,12 +76,12 @@ public class ManagementCount : MonoBehaviour
         throwMoneyCount = new int[] { 0, 0, 0, 0, 0, 0, 0, 0 };
 
         // 対象オブジェクトを格納
-        attachClickMoneyCsObj = GameObject.Find("TicketMachineDirector");
+        GameObject attachClickMoneyCsObj = GameObject.Find("TicketMachineDirector");
         // ClickMoneyのスクリプト情報を取得
         clickMoneyCs = attachClickMoneyCsObj.GetComponent<ClickMoney>();
 
         // 対象オブジェクトを格納
-        attachCalculationMoneyCsObj = GameObject.Find("TicketMachineDirector");
+        GameObject attachCalculationMoneyCsObj = GameObject.Find("TicketMachineDirector");
         // CalculationMoneyのスクリプト情報を取得
         calculationMoneyCs = attachCalculationMoneyCsObj.GetComponent<CalculationMoney>();
     }
@@ -94,7 +90,7 @@ public class ManagementCount : MonoBehaviour
     void Update()
     {
         // 初期状態だったら
-        if(StateFlow.MachineState == StateFlow.STATE.DEFAULT)
+        if (StateFlow.MachineState == StateFlow.STATE.DEFAULT)
         {
             // 投入金額の枚数は0にする
             for (int i = 0; i < (int)ClickMoney.SELECTED_MONEY.NOT_SELECT/*(最大値)*/; i++)
@@ -218,7 +214,11 @@ public class ManagementCount : MonoBehaviour
             }
         }
     }
-
+    
+    /// <summary>
+    /// 枚数を減らす
+    /// </summary>
+    /// <param name="moneyType">金種</param>
     private void DisCount(int moneyType)
     {
         int count = 0;
@@ -309,12 +309,21 @@ public class ManagementCount : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// お釣りを所持金へ
+    /// </summary>
+    /// <param name="i">要素番号</param>
+    /// <param name="returnMoney">お釣り</param>
     public void ReturnMoneyToRemainMoney(int i, int returnMoney)
     {
         RemainMoneyCount[i] += returnMoney;
     }
 
-    // stringからintへ変換して値を返す
+    /// <summary>
+    /// stringからintへ変換して値を返す
+    /// </summary>
+    /// <param name="text">変換するstrオブジェクト</param>
+    /// <returns></returns>
     private int StringToInt(string text)
     {
         return int.Parse(text);
@@ -326,20 +335,18 @@ public class ManagementCount : MonoBehaviour
     public int[] MoneyList { get { return moneyList; } set { moneyList = value; } }
 
     /// <summary>
-    /// 金種別の最大値取得・設定関数
+    /// 金種別の最大枚数取得・設定関数
+    /// (電子マネーは金額)
     /// </summary>
     public int[] MaxMoneyCount { get { return maxMoneyCount; } set { maxMoneyCount = value; } }
-
-
     /// <summary>
-    /// 残りのお金取得・設定関数
+    /// 残りのお金の枚数取得・設定関数
+    /// (電子マネーは金額)
     /// </summary>
     public int[] RemainMoneyCount { get { return remainMoneyCount; } set { remainMoneyCount = value; } }
-
-    public int[] ThrowMoneyCount { get { return throwMoneyCount; } set { throwMoneyCount = value; } }
-
     /// <summary>
-    /// 枚数取得・設定関数
+    /// 投入したお金の枚数取得・設定関数
+    /// (電子マネーは金額)
     /// </summary>
-    //public Text MoneyCount { get { return moneyCount; } set { moneyCount = value; } }
+    public int[] ThrowMoneyCount { get { return throwMoneyCount; } set { throwMoneyCount = value; } }
 }

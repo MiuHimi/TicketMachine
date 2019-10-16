@@ -7,8 +7,8 @@ public class ReuseButtonAction : MonoBehaviour
     // CalculationMoneyのスクリプト情報を格納
     private CalculationMoney calculationMoneyCs;
 
-    // ManagementCountのスクリプト情報を格納
-    private ManagementCount managementCountCs;
+    // ManagementMoneyのスクリプト情報を格納
+    private ManagementMoney managementMoneyCs;
 
     // Start is called before the first frame update
     void Start()
@@ -19,9 +19,9 @@ public class ReuseButtonAction : MonoBehaviour
         calculationMoneyCs = attachCalculationMoneyCsObj.GetComponent<CalculationMoney>();
 
         // 対象オブジェクトを格納
-        GameObject attachManagementCountCsObj = GameObject.Find("CountArea");
-        // ManagementCountのスクリプト情報を取得
-        managementCountCs = attachManagementCountCsObj.GetComponent<ManagementCount>();
+        GameObject attachManagementMoneyCsObj = GameObject.Find("MoneyArea");
+        // ManagementMoneyのスクリプト情報を取得
+        managementMoneyCs = attachManagementMoneyCsObj.GetComponent<ManagementMoney>();
     }
 
     /// <summary>
@@ -53,12 +53,12 @@ public class ReuseButtonAction : MonoBehaviour
                 if (i == (int)ClickMoney.SELECTED_MONEY.CREDIT) continue;
 
                 // 割って余りがある場合
-                if (returnMoney / managementCountCs.MoneyList[i] != 0)
+                if (returnMoney / managementMoneyCs.MoneyList[i] != 0)
                 {
                     // 枚数をカウント
-                    returnMoneyCount[i] = returnMoney / managementCountCs.MoneyList[i];
+                    returnMoneyCount[i] = returnMoney / managementMoneyCs.MoneyList[i];
                     // お釣りからカウントした分だけの金額を引く
-                    returnMoney -= managementCountCs.MoneyList[i] * returnMoneyCount[i];
+                    returnMoney -= managementMoneyCs.MoneyList[i] * returnMoneyCount[i];
                 }
                 // 余らない場合その金種はお釣りで使わない
                 else
@@ -67,7 +67,7 @@ public class ReuseButtonAction : MonoBehaviour
                 }
 
                 // お釣りを所持金に戻す
-                managementCountCs.ReturnMoneyToRemainMoney(i, returnMoneyCount[i]);
+                managementMoneyCs.ReturnMoneyToRemainMoney(i, returnMoneyCount[i]);
             }
         }
 
@@ -77,7 +77,7 @@ public class ReuseButtonAction : MonoBehaviour
             // 所持金から金種別の最大値を設定
             for (int i = 0; i < (int)ClickMoney.SELECTED_MONEY.NOT_SELECT/*(最大値)*/; i++)
             {
-                managementCountCs.MaxMoneyCount[i] = managementCountCs.RemainMoneyCount[i];
+                managementMoneyCs.MaxMoneyCount[i] = managementMoneyCs.RemainMoneyCount[i];
             }
         }
 

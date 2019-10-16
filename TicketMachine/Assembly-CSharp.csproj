@@ -68,7 +68,7 @@
     <Compile Include="Assets\Scripts\CalculationMoney.cs" />
     <Compile Include="Assets\Scripts\ClickMoney.cs" />
     <Compile Include="Assets\Scripts\EndButtonAction.cs" />
-    <Compile Include="Assets\Scripts\ManagementCount.cs" />
+    <Compile Include="Assets\Scripts\ManagementMoney.cs" />
     <Compile Include="Assets\Scripts\PrefabGenerator.cs" />
     <Compile Include="Assets\Scripts\ResultMoney.cs" />
     <Compile Include="Assets\Scripts\ReuseButtonAction.cs" />
