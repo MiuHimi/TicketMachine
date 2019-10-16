@@ -23,7 +23,8 @@ public class ManagementMoney : MonoBehaviour
     private Text digitalCashAmount;
 
     // お金一覧
-    public int[] moneyList = { 0 };
+    [SerializeField]
+    private int[] moneyList = { 0 };
 
     // 全てのお金の枚数を保持
     [SerializeField]
@@ -103,68 +104,50 @@ public class ManagementMoney : MonoBehaviour
         switch (clickMoneyCs.SelectedMoney)
         {
             case ClickMoney.SELECTED_MONEY.TEN:
-                throwMoneyCount[(int)ClickMoney.SELECTED_MONEY.TEN]++;
-                remainMoneyCount[(int)ClickMoney.SELECTED_MONEY.TEN] =
-                    maxMoneyCount[(int)ClickMoney.SELECTED_MONEY.TEN] - throwMoneyCount[(int)ClickMoney.SELECTED_MONEY.TEN];
-                if (remainMoneyCount[(int)ClickMoney.SELECTED_MONEY.TEN] < 0) remainMoneyCount[(int)ClickMoney.SELECTED_MONEY.TEN] = 0;
-                DisCount((int)ClickMoney.SELECTED_MONEY.TEN);
+                // 投入した枚数と残りの枚数の更新
+                SetMoneyCount(ClickMoney.SELECTED_MONEY.TEN);
+                // 不足分から投入金額を引く(不足金額とお釣りの更新)
                 calculationMoneyCs.ThrowMoney(10);
                 break;
             case ClickMoney.SELECTED_MONEY.FIFTY:
-                throwMoneyCount[(int)ClickMoney.SELECTED_MONEY.FIFTY]++;
-                remainMoneyCount[(int)ClickMoney.SELECTED_MONEY.FIFTY] =
-                    maxMoneyCount[(int)ClickMoney.SELECTED_MONEY.FIFTY] - throwMoneyCount[(int)ClickMoney.SELECTED_MONEY.FIFTY];
-                if (remainMoneyCount[(int)ClickMoney.SELECTED_MONEY.FIFTY] < 0) remainMoneyCount[(int)ClickMoney.SELECTED_MONEY.FIFTY] = 0;
-                DisCount((int)ClickMoney.SELECTED_MONEY.FIFTY);
+                // 投入した枚数と残りの枚数の更新
+                SetMoneyCount(ClickMoney.SELECTED_MONEY.FIFTY);
+                // 不足分から投入金額を引く(不足金額とお釣りの更新)
                 calculationMoneyCs.ThrowMoney(50);
                 break;
             case ClickMoney.SELECTED_MONEY.ONE_HUNDRED:
-                throwMoneyCount[(int)ClickMoney.SELECTED_MONEY.ONE_HUNDRED]++;
-                remainMoneyCount[(int)ClickMoney.SELECTED_MONEY.ONE_HUNDRED] =
-                    maxMoneyCount[(int)ClickMoney.SELECTED_MONEY.ONE_HUNDRED] - throwMoneyCount[(int)ClickMoney.SELECTED_MONEY.ONE_HUNDRED];
-                if (remainMoneyCount[(int)ClickMoney.SELECTED_MONEY.ONE_HUNDRED] < 0) remainMoneyCount[(int)ClickMoney.SELECTED_MONEY.ONE_HUNDRED] = 0;
-                DisCount((int)ClickMoney.SELECTED_MONEY.ONE_HUNDRED);
+                // 投入した枚数と残りの枚数の更新
+                SetMoneyCount(ClickMoney.SELECTED_MONEY.ONE_HUNDRED);
+                // 不足分から投入金額を引く(不足金額とお釣りの更新)
                 calculationMoneyCs.ThrowMoney(100);
                 break;
             case ClickMoney.SELECTED_MONEY.FIVE_HUNDRED:
-                throwMoneyCount[(int)ClickMoney.SELECTED_MONEY.FIVE_HUNDRED]++;
-                remainMoneyCount[(int)ClickMoney.SELECTED_MONEY.FIVE_HUNDRED] =
-                    maxMoneyCount[(int)ClickMoney.SELECTED_MONEY.FIVE_HUNDRED] - throwMoneyCount[(int)ClickMoney.SELECTED_MONEY.FIVE_HUNDRED];
-                if (remainMoneyCount[(int)ClickMoney.SELECTED_MONEY.FIVE_HUNDRED] < 0) remainMoneyCount[(int)ClickMoney.SELECTED_MONEY.FIVE_HUNDRED] = 0;
-                DisCount((int)ClickMoney.SELECTED_MONEY.FIVE_HUNDRED);
+                // 投入した枚数と残りの枚数の更新
+                SetMoneyCount(ClickMoney.SELECTED_MONEY.FIVE_HUNDRED);
+                // 不足分から投入金額を引く(不足金額とお釣りの更新)
                 calculationMoneyCs.ThrowMoney(500);
                 break;
             case ClickMoney.SELECTED_MONEY.ONE_THOUSAND:
-                throwMoneyCount[(int)ClickMoney.SELECTED_MONEY.ONE_THOUSAND]++;
-                remainMoneyCount[(int)ClickMoney.SELECTED_MONEY.ONE_THOUSAND] =
-                    maxMoneyCount[(int)ClickMoney.SELECTED_MONEY.ONE_THOUSAND] - throwMoneyCount[(int)ClickMoney.SELECTED_MONEY.ONE_THOUSAND];
-                if (remainMoneyCount[(int)ClickMoney.SELECTED_MONEY.ONE_THOUSAND] < 0) remainMoneyCount[(int)ClickMoney.SELECTED_MONEY.ONE_THOUSAND] = 0;
-                DisCount((int)ClickMoney.SELECTED_MONEY.ONE_THOUSAND);
+                // 投入した枚数と残りの枚数の更新
+                SetMoneyCount(ClickMoney.SELECTED_MONEY.ONE_THOUSAND);
+                // 不足分から投入金額を引く(不足金額とお釣りの更新)
                 calculationMoneyCs.ThrowMoney(1000);
                 break;
             case ClickMoney.SELECTED_MONEY.FIVE_THOUSAND:
-                throwMoneyCount[(int)ClickMoney.SELECTED_MONEY.FIVE_THOUSAND]++;
-                remainMoneyCount[(int)ClickMoney.SELECTED_MONEY.FIVE_THOUSAND] =
-                    maxMoneyCount[(int)ClickMoney.SELECTED_MONEY.FIVE_THOUSAND] - throwMoneyCount[(int)ClickMoney.SELECTED_MONEY.FIVE_THOUSAND];
-                if (remainMoneyCount[(int)ClickMoney.SELECTED_MONEY.FIVE_THOUSAND] < 0) remainMoneyCount[(int)ClickMoney.SELECTED_MONEY.FIVE_THOUSAND] = 0;
-                DisCount((int)ClickMoney.SELECTED_MONEY.FIVE_THOUSAND);
+                // 投入した枚数と残りの枚数の更新
+                SetMoneyCount(ClickMoney.SELECTED_MONEY.FIVE_THOUSAND);
+                // 不足分から投入金額を引く(不足金額とお釣りの更新)
                 calculationMoneyCs.ThrowMoney(5000);
                 break;
             case ClickMoney.SELECTED_MONEY.TEN_THOUSAND:
-                throwMoneyCount[(int)ClickMoney.SELECTED_MONEY.TEN_THOUSAND]++;
-                remainMoneyCount[(int)ClickMoney.SELECTED_MONEY.TEN_THOUSAND] =
-                    maxMoneyCount[(int)ClickMoney.SELECTED_MONEY.TEN_THOUSAND] - throwMoneyCount[(int)ClickMoney.SELECTED_MONEY.TEN_THOUSAND];
-                if (remainMoneyCount[(int)ClickMoney.SELECTED_MONEY.TEN_THOUSAND] < 0) remainMoneyCount[(int)ClickMoney.SELECTED_MONEY.TEN_THOUSAND] = 0;
-                DisCount((int)ClickMoney.SELECTED_MONEY.TEN_THOUSAND);
+                // 投入した枚数と残りの枚数の更新
+                SetMoneyCount(ClickMoney.SELECTED_MONEY.TEN_THOUSAND);
+                // 不足分から投入金額を引く(不足金額とお釣りの更新)
                 calculationMoneyCs.ThrowMoney(10000);
                 break;
             case ClickMoney.SELECTED_MONEY.CREDIT:
-                throwMoneyCount[(int)ClickMoney.SELECTED_MONEY.CREDIT] = remainMoneyCount[(int)ClickMoney.SELECTED_MONEY.CREDIT];
-                // 最大枚数から投入枚数を引いて現在の枚数を更新
-                remainMoneyCount[(int)ClickMoney.SELECTED_MONEY.CREDIT] -= calculationMoneyCs.DificitMoney;
-                //    maxMoneyCount[(int)ClickMoney.SELECTED_MONEY.CREDIT] - throwMoneyCount[(int)ClickMoney.SELECTED_MONEY.CREDIT];
-                // 所持金から不足分を引く(所持金の更新)
-                DisCount((int)ClickMoney.SELECTED_MONEY.CREDIT);
+                // 投入した枚数と残りの枚数の更新
+                SetMoneyCount(ClickMoney.SELECTED_MONEY.CREDIT);
                 // 不足分から投入金額を引く(不足金額とお釣りの更新)
                 calculationMoneyCs.ThrowMoney(1000);
                 break;
@@ -172,49 +155,71 @@ public class ManagementMoney : MonoBehaviour
                 break;
         }
 
-        for (int i = 0; i < (int)ClickMoney.SELECTED_MONEY.NOT_SELECT/*最大値*/; i++)
+        // 所持金更新
+        for (int i = 0; i < (int)ClickMoney.SELECTED_MONEY.NOT_SELECT/*列挙型金種の最大値*/; i++)
         {
-            int count = 0;
             switch (i)
             {
                 case (int)ClickMoney.SELECTED_MONEY.TEN:
-                    count = RemainMoneyCount[i];
-                    tenAmount.text = count.ToString();
+                    tenAmount.text = RemainMoneyCount[i].ToString();
                     break;
                 case (int)ClickMoney.SELECTED_MONEY.FIFTY:
-                    count = RemainMoneyCount[i];
-                    fiftyAmount.text = count.ToString();
+                    fiftyAmount.text = RemainMoneyCount[i].ToString();
                     break;
                 case (int)ClickMoney.SELECTED_MONEY.ONE_HUNDRED:
-                    count = RemainMoneyCount[i];
-                    oneHundredAmount.text = count.ToString();
+                    oneHundredAmount.text = RemainMoneyCount[i].ToString();
                     break;
                 case (int)ClickMoney.SELECTED_MONEY.FIVE_HUNDRED:
-                    count = RemainMoneyCount[i];
-                    fiveHundredAmount.text = count.ToString();
+                    fiveHundredAmount.text = RemainMoneyCount[i].ToString();
                     break;
                 case (int)ClickMoney.SELECTED_MONEY.ONE_THOUSAND:
-                    count = RemainMoneyCount[i];
-                    oneThousandAmount.text = count.ToString();
+                    oneThousandAmount.text = RemainMoneyCount[i].ToString();
                     break;
                 case (int)ClickMoney.SELECTED_MONEY.FIVE_THOUSAND:
-                    count = RemainMoneyCount[i];
-                    fiveThousandAmount.text = count.ToString();
+                    fiveThousandAmount.text = RemainMoneyCount[i].ToString();
                     break;
                 case (int)ClickMoney.SELECTED_MONEY.TEN_THOUSAND:
-                    count = RemainMoneyCount[i];
-                    tenThousandAmount.text = count.ToString();
+                    tenThousandAmount.text = RemainMoneyCount[i].ToString();
                     break;
                 case (int)ClickMoney.SELECTED_MONEY.CREDIT:
-                    count = RemainMoneyCount[i];
-                    digitalCashAmount.text = count.ToString();
+                    digitalCashAmount.text = RemainMoneyCount[i].ToString();
                     break;
                 default:
                     break;
             }
         }
     }
-    
+
+    /// <summary>
+    /// 投入した枚数と残りの枚数の設定
+    /// </summary>
+    /// <param name="moneyType">金種</param>
+    private void SetMoneyCount(ClickMoney.SELECTED_MONEY moneyType)
+    {
+        // 電子マネー意外の場合(現金)
+        if (moneyType != ClickMoney.SELECTED_MONEY.CREDIT)
+        {
+            // 投入した枚数を更新
+            throwMoneyCount[(int)moneyType]++;
+            // 最大枚数から投入枚数を引いて残りの枚数を更新
+            remainMoneyCount[(int)moneyType] = maxMoneyCount[(int)moneyType] - throwMoneyCount[(int)moneyType];
+            // 残りの枚数の補正
+            if (remainMoneyCount[(int)moneyType] < 0) remainMoneyCount[(int)moneyType] = 0;
+            // 所持金から不足分を引く(所持金の更新)
+            DisCount((int)moneyType);
+        }
+        // 電子マネーの場合
+        else if(moneyType == ClickMoney.SELECTED_MONEY.CREDIT)
+        {
+            // 現在の金額がそのまま投入した金額
+            throwMoneyCount[(int)moneyType] = remainMoneyCount[(int)moneyType];
+            // 所持金からそのまま不足分を引く(一括)
+            remainMoneyCount[(int)moneyType] -= calculationMoneyCs.DificitMoney;
+            // 所持金から不足分を引く(所持金の更新)
+            DisCount((int)moneyType);
+        }
+    }
+
     /// <summary>
     /// 枚数を減らす
     /// </summary>
@@ -323,7 +328,7 @@ public class ManagementMoney : MonoBehaviour
     /// stringからintへ変換して値を返す
     /// </summary>
     /// <param name="text">変換するstrオブジェクト</param>
-    /// <returns></returns>
+    /// <returns>int型の値</returns>
     private int StringToInt(string text)
     {
         return int.Parse(text);
