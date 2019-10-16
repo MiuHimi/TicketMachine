@@ -35,7 +35,7 @@ public static class PrefabGenerator
     /// タグが付いたオブジェクトを数えて個数を返す
     /// </summary>
     /// <param name="tagname">タグの名前</param>
-    /// <returns></returns>
+    /// <returns>指定のオブジェクトの個数</returns>
     private static int CheckTagNum(string tagname)
     {
         GameObject[] tagObjects = GameObject.FindGameObjectsWithTag(tagname);

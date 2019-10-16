@@ -14,11 +14,11 @@ public static class StateFlow
     }
 
     // 券売機の状態を保持
-    [SerializeField]
+    //[SerializeField]
     static private STATE machineState = STATE.DEFAULT;
 
     /// <summary>
-    /// 取得・設定関数
+    /// 券売機の状態取得・設定関数
     /// </summary>
     public static STATE MachineState { get { return machineState; } set { machineState = value; } }
 }
