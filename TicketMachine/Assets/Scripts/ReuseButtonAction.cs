@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class ReuseButtonAction : MonoBehaviour
 {
+    // ClickMoneyのスクリプト情報を格納
+    private ClickMoney clickMoneyCs;
+
     // CalculationMoneyのスクリプト情報を格納
     private CalculationMoney calculationMoneyCs;
 
@@ -13,6 +16,11 @@ public class ReuseButtonAction : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // 対象オブジェクトを格納
+        GameObject attachClickMoneyCsObj = GameObject.Find("TicketMachineDirector");
+        // ClickMoneyのスクリプト情報を取得
+        clickMoneyCs = attachClickMoneyCsObj.GetComponent<ClickMoney>();
+
         // 対象オブジェクトを格納
         GameObject attachCalculationMoneyCsObj = GameObject.Find("TicketMachineDirector");
         // CalculationMoneyのスクリプト情報を取得
@@ -43,8 +51,8 @@ public class ReuseButtonAction : MonoBehaviour
         // 金種別のお釣りの枚数
         int[] returnMoneyCount = new int[(int)ClickMoney.SELECTED_MONEY.NOT_SELECT] { 0, 0, 0, 0, 0, 0, 0, 0};
 
-        // お釣りがあれば回収する
-        if (returnMoney != 0)
+        // 現金で払っていて、お釣りがあれば回収する
+        if (returnMoney != 0 && clickMoneyCs.HowToPay == ClickMoney.PAY.CASH)
         {
             // お釣りの計算
             for (int i = (int)ClickMoney.SELECTED_MONEY.CREDIT/*CREDITは最大値*/; i >= 0 ; i--)
