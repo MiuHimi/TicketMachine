@@ -5,11 +5,9 @@ using UnityEngine.UI;
 
 public class CalculationMoney : MonoBehaviour
 {
-    // 不足分テキスト
-    private GameObject difictObject;
-    // 不足分(int)
+    // 不足分金額
     private int dificitMoney;
-    // 不足分(Text)
+    // 不足分テキスト
     private Text difictText;
 
     // お釣り
@@ -18,11 +16,17 @@ public class CalculationMoney : MonoBehaviour
     // チケットを購入したかどうか
     private bool isFinishBuy;
 
+    // ClickMoneyのスクリプト情報を格納
+    private ClickMoney clickMoneyCs;
+
+    // ManagementMoneyのスクリプト情報を格納
+    private ManagementMoney managementMoneyCs;
+
     // Start is called before the first frame update
     void Start()
     {
         // 不足分オブジェクト初期化
-        difictObject = GameObject.Find("DeficitMoneyText");
+        GameObject difictObject = GameObject.Find("DeficitMoneyText");
         dificitMoney = 0;
         difictText = difictObject.GetComponent<Text>();
 
@@ -31,6 +35,16 @@ public class CalculationMoney : MonoBehaviour
 
         // 購入済みかどうかフラグを初期化
         isFinishBuy = false;
+
+        // 対象オブジェクトを格納
+        GameObject attachClickMoneyCsObj = GameObject.Find("TicketMachineDirector");
+        // ClickMoneyのスクリプト情報を取得
+        clickMoneyCs = attachClickMoneyCsObj.GetComponent<ClickMoney>();
+
+        // 対象オブジェクトを格納
+        GameObject attachManagementMoneyCsObj = GameObject.Find("MoneyArea");
+        // ClickMoneyのスクリプト情報を取得
+        managementMoneyCs = attachManagementMoneyCsObj.GetComponent<ManagementMoney>();
     }
 
     // Update is called once per frame
@@ -40,8 +54,11 @@ public class CalculationMoney : MonoBehaviour
         difictText.text = dificitMoney.ToString();
     }
 
-    // 不足残金から投入された金額を引く
-    // お釣りが出る場合、金額を保持
+    /// <summary>
+    /// 不足残金から投入された金額を引く
+    /// お釣りが出る場合、金額を保持
+    /// </summary>
+    /// <param name="throwMoney">投入される金額</param>
     public void ThrowMoney(int throwMoney)
     {
         // 不足金額から投入金額を引く
@@ -51,7 +68,7 @@ public class CalculationMoney : MonoBehaviour
         // (必要な分だけ投入されたら)
         if (dificitMoney <= 0)
         {
-            // 正の値にしてお釣り保存
+            // 正の値にしてお釣り金額保存
             returnMoney = dificitMoney * -1;
             // 不足分は0円にしておく
             dificitMoney = 0;
@@ -64,12 +81,49 @@ public class CalculationMoney : MonoBehaviour
     }
 
     /// <summary>
+    /// お釣りの計算
+    /// </summary>
+    public void CalculationReturnMoney()
+    {
+        // 金種別のお釣りの枚数
+        int[] returnMoneyCount = new int[(int)ClickMoney.SELECTED_MONEY.NOT_SELECT/*列挙型金種の最大値*/] { 0, 0, 0, 0, 0, 0, 0, 0 };
+
+        // 現金で払っていて、お釣りがあれば回収する
+        if (returnMoney != 0 && clickMoneyCs.HowToPay == ClickMoney.PAY.CASH)
+        {
+            // お釣りの計算
+            for (int i = (int)ClickMoney.SELECTED_MONEY.CREDIT/*CREDITは金種の最大値*/; i >= 0; i--)
+            {
+                // 電子マネーはスキップ
+                if (i == (int)ClickMoney.SELECTED_MONEY.CREDIT) continue;
+
+                // 割って余りがある場合
+                if (returnMoney / managementMoneyCs.MoneyList[i] != 0)
+                {
+                    // 枚数をカウント
+                    returnMoneyCount[i] = returnMoney / managementMoneyCs.MoneyList[i];
+                    // お釣りからカウントした分だけの金額を引く
+                    returnMoney -= managementMoneyCs.MoneyList[i] * returnMoneyCount[i];
+                }
+                // 余らない場合その金種はお釣りで使わない
+                else
+                {
+                    returnMoneyCount[i] = 0;
+                }
+
+                // お釣りを所持金に戻す
+                managementMoneyCs.ReturnMoneyToRemainMoney(i, returnMoneyCount[i]);
+            }
+        }
+    }
+
+    /// <summary>
     /// 支払い残金取得・設定関数
     /// </summary>
     public int DificitMoney { get { return dificitMoney; } set { dificitMoney = value; } }
 
     /// <summary>
-    /// お釣り取得・設定関数
+    /// お釣り金額取得・設定関数
     /// </summary>
     public int ReturnMoney { get { return returnMoney; } set { returnMoney = value; } }
 

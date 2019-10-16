@@ -4,27 +4,6 @@ using UnityEngine;
 
 public class EndButtonAction : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
-    /// <summary>
-    /// 表示/非表示切り替え
-    /// </summary>
-    /// <param name="flag">切り替えフラグ</param>
-    public void SetActive(bool flag)
-    {
-        this.gameObject.SetActive(flag);
-    }
-
     /// <summary>
     /// ボタンが押された
     /// </summary>
