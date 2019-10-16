@@ -22,6 +22,9 @@ public class CalculationMoney : MonoBehaviour
     // ManagementMoneyのスクリプト情報を格納
     private ManagementMoney managementMoneyCs;
 
+    // ResultMoneyのスクリプト情報を格納
+    private ResultMoney resultMoneyCs;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -43,8 +46,13 @@ public class CalculationMoney : MonoBehaviour
 
         // 対象オブジェクトを格納
         GameObject attachManagementMoneyCsObj = GameObject.Find("MoneyArea");
-        // ClickMoneyのスクリプト情報を取得
+        // ManagementMoneyのスクリプト情報を取得
         managementMoneyCs = attachManagementMoneyCsObj.GetComponent<ManagementMoney>();
+
+        // 対象オブジェクトを格納
+        GameObject attachResultMoneyCsObj = GameObject.Find("TickectMachineArea");
+        // ResultMoneyのスクリプト情報を取得
+        resultMoneyCs = attachResultMoneyCsObj.GetComponent<ResultMoney>();
     }
 
     // Update is called once per frame
@@ -70,6 +78,7 @@ public class CalculationMoney : MonoBehaviour
         {
             // 正の値にしてお釣り金額保存
             returnMoney = dificitMoney * -1;
+            resultMoneyCs.ReturnMoney = CalculationReturnMoney();
             // 不足分は0円にしておく
             dificitMoney = 0;
             // 購入完了
@@ -81,9 +90,10 @@ public class CalculationMoney : MonoBehaviour
     }
 
     /// <summary>
-    /// お釣りの計算
+    /// お釣りの計算をして金種別の配列で返す
     /// </summary>
-    public void CalculationReturnMoney()
+    /// <returns>金種別の配列</returns>
+    public int[] CalculationReturnMoney()
     {
         // 金種別のお釣りの枚数
         int[] returnMoneyCount = new int[(int)ClickMoney.SELECTED_MONEY.NOT_SELECT/*列挙型金種の最大値*/] { 0, 0, 0, 0, 0, 0, 0, 0 };
@@ -110,11 +120,10 @@ public class CalculationMoney : MonoBehaviour
                 {
                     returnMoneyCount[i] = 0;
                 }
-
-                // お釣りを所持金に戻す
-                managementMoneyCs.ReturnMoneyToRemainMoney(i, returnMoneyCount[i]);
             }
         }
+
+        return returnMoneyCount;
     }
 
     /// <summary>

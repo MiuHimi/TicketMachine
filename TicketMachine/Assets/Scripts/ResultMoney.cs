@@ -14,13 +14,10 @@ public class ResultMoney : MonoBehaviour
     // 残りのお金を表示するための親オブジェクト
     public GameObject remainMoneyParentObj;
 
-    // お金一覧
-    public int[] moneyList = { 0 };
+    // 金種別のお釣りの枚数
+    private int[] returnMoney = { 0 };
 
-    // お釣り
-    private int returnMoney;
-
-    // 表示されたかどうか判別
+    // 表示されたかどうか判別するフラグ
     private bool isShowed;
 
     // 結果テキストリスト(クローン、プレハブから取得)
@@ -41,8 +38,10 @@ public class ResultMoney : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // 表示されたかどうか判別するフラグの初期化
         isShowed = false;
 
+        // 結果テキストリストの初期化
         cloneResultTextList = new List<GameObject>();
 
         // 対象オブジェクトを格納
@@ -119,34 +118,13 @@ public class ResultMoney : MonoBehaviour
     /// <param name="parent">表示するための親オブジェクト</param>
     private void ShowReturnMoneyText(GameObject parent)
     {
-        // お釣りの値を取得
-        returnMoney = calculationMoneyCs.ReturnMoney;
         // 金種別のお釣りの枚数
-        int[] returnMoneyCount = new int[] { 0, 0, 0, 0, 0, 0, 0};
+        int[] returnMoneyCount = returnMoney;
 
         // 電子マネーは現金のお釣りで返さない
         if (clickMoneyCs.SelectedMoney == ClickMoney.SELECTED_MONEY.CREDIT) return;
 
-        // お釣りの計算
-        for(int i = returnMoneyCount.Length -1; i >= 0; i--)
-        {
-            // 割って余りがある場合
-            if (returnMoney / moneyList[i] != 0)
-            {
-                // 電子マネーはスキップ
-                if (i == (int)ClickMoney.SELECTED_MONEY.CREDIT) continue;
-                // 枚数をカウント
-                returnMoneyCount[i] = returnMoney / moneyList[i];
-                // お釣りからカウントした分だけの金額を引く
-                returnMoney -= moneyList[i] * returnMoneyCount[i];
-            }
-            // 余らない場合その金種はお釣りで使わない
-            else
-            {
-                returnMoneyCount[i] = 0;
-            }
-        }
-
+        // お釣りの表示
         for (int i = 0; i < returnMoneyCount.Length; i++)
         {
             // 返ってこないものはスキップ
@@ -245,6 +223,11 @@ public class ResultMoney : MonoBehaviour
 
         return obj;
     }
+
+    /// <summary>
+    /// 金種別お釣り取得・設定関数
+    /// </summary>
+    public int[] ReturnMoney { get { return returnMoney; } set { returnMoney = value; } }
 
     /// <summary>
     /// 表示状態取得・設定関数
